@@ -5,21 +5,26 @@
   
 
   
-  <title>交换机详解 | 闪电</title>
+  <title>交换机详解 | 闪电&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
   
   
-  <meta property="og:type" content="article">
+  <meta name="description" content="主要内容交换机的帧转发技术，mac地址表的维护方式，三种帧转发模式，冲突域和广播域  帧转发交换机学习“源地址”，基于“目的地址”转发   交换机转发方式   直通式比存储转发型更快速两大特点：快速帧转发，无效帧处理快速帧转发：一旦交换机在MAC地址表中查找到目的MAC地址，就立刻做出转发决定。而无需等待帧的剩余部分进入端口再做出转发决定使用直通方式的交换机能够快速决定是否有必要检查帧头的更多部分">
+<meta property="og:type" content="article">
 <meta property="og:title" content="交换机详解">
 <meta property="og:url" content="http://yoursite.com/2019/10/04/交换机详解/index.html">
-<meta property="og:site_name" content="闪电">
+<meta property="og:site_name" content="闪电&#39;s Blog">
+<meta property="og:description" content="主要内容交换机的帧转发技术，mac地址表的维护方式，三种帧转发模式，冲突域和广播域  帧转发交换机学习“源地址”，基于“目的地址”转发   交换机转发方式   直通式比存储转发型更快速两大特点：快速帧转发，无效帧处理快速帧转发：一旦交换机在MAC地址表中查找到目的MAC地址，就立刻做出转发决定。而无需等待帧的剩余部分进入端口再做出转发决定使用直通方式的交换机能够快速决定是否有必要检查帧头的更多部分">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-10-04T10:42:06.455Z">
+<meta property="og:image" content="http://yoursite.com/images/Article_images/image01.jpg">
+<meta property="og:updated_time" content="2019-10-05T14:36:14.772Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="交换机详解">
+<meta name="twitter:description" content="主要内容交换机的帧转发技术，mac地址表的维护方式，三种帧转发模式，冲突域和广播域  帧转发交换机学习“源地址”，基于“目的地址”转发   交换机转发方式   直通式比存储转发型更快速两大特点：快速帧转发，无效帧处理快速帧转发：一旦交换机在MAC地址表中查找到目的MAC地址，就立刻做出转发决定。而无需等待帧的剩余部分进入端口再做出转发决定使用直通方式的交换机能够快速决定是否有必要检查帧头的更多部分">
+<meta name="twitter:image" content="http://yoursite.com/images/Article_images/image01.jpg">
   
-    <link rel="alternate" href="/atom.xml" title="闪电" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="闪电&#39;s Blog" type="application/atom+xml">
   
   
     <link rel="icon" href="/images/default-avatar.jpg">
@@ -83,7 +88,30 @@
     
     <div class="article-content article-content-cloud" itemprop="articleBody">
       
-        
+        <h1 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h1><p>交换机的帧转发技术，mac地址表的维护方式，三种帧转发模式，冲突域和广播域</p>
+<ul>
+<li>帧转发<br>交换机学习“源地址”，基于“目的地址”转发</li>
+</ul>
+<ul>
+<li>交换机转发方式</li>
+</ul>
+<ol>
+<li>直通式<br>比存储转发型更快速<br>两大特点：快速帧转发，无效帧处理<br>快速帧转发：<br>一旦交换机在MAC地址表中查找到目的MAC地址，就立刻做出转发决定。而无需等待帧的剩余部分进入端口再做出转发决定<br>使用直通方式的交换机能够快速决定是否有必要检查帧头的更多部分，以针对额外的过滤目的。例如，交换机可以检查前14个字节（源MAC地址，目的MAC，以太网类型字段），以及对之后的40字节进行检查，以实现IPv4三层和四层相关功能。</li>
+</ol>
+<p>无效帧处理：<br>对于大多数无效帧，直通方式交换机并不将其丢弃。错误帧被转发至其他网段。如果网络中出现高差错率（无效帧），直通交换可能会对带宽造成不利影响，损坏以及无效帧会造成带宽拥塞。在拥塞情况下，这种交换机必须像存储转发交换机那样缓存</p>
+<ol start="2">
+<li><p>存储转发交换<br>交换机在发送信息前八整帧数据读入内存才能并且检查其正确性。虽然这样比直通方式更花时间，但这样可以存储转发数据，从而保证其准确性<br>两大特点：差错控制，自动缓存<br>差错控制：<br>使用存储转发技术的交换机对进入帧进行差错控制。在进入端口接收完整一帧之后，交换机将数据报最后一个字段的帧校验序列（frame check sequence, FCS）与自己的FCS进行比较。FCS校验过程用以帮助确保帧没有物理及数据链路错误，如果该帧校验正确，则交换机转发。否则，丢弃。<br><img src="/images/Article_images/image01.jpg" alt="差错控制"><br>自动缓存：<br>存储转发交换机通过进入端口缓存，支持不同速率以太网的混合连接。例如，接收到一个以1Gb/s速率发出的帧，转发至百兆以太网端口，就需要使用存储转发方式。当进入与输出端口速率不匹配时，交换机将整帧内容放入缓存中，计算FCS校验，转发至输出缓存之后将帧发出。<br>Cisco的主要交换方式是存储转发交换</p>
+</li>
+<li><p>无碎片转发<br>是直通方式的一种改进模式，交换机转发之前检查帧是否大于64字节（小于则丢弃），以保证没有碎片帧。无碎片方式比直通方式拥有更好的差错检测，而实际上没有增加延时。它比较适合于高性能计算应用，即进程到进程延时小于10毫秒的应用场景</p>
+</li>
+</ol>
+<ul>
+<li>交换机域<br>冲突域和广播域</li>
+</ul>
+<ol>
+<li>冲突域<br>设备间共享同一网段称为冲突域，</li>
+</ol>
+
       
     </div>
     
@@ -149,7 +177,7 @@ gitment.render('gitmentContainer')
       
     </h3>
     <p class="avatar-slogan">
-      何必管那一片海，有多么澎湃
+      何必管一片海，有多澎湃
     </p>
   </div>
 </div>
