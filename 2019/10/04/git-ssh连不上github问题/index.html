@@ -88,18 +88,18 @@
       
         <p>开始的时候是可以连上的，后来不知道怎么的就不行了，，，网上找了好久终于解决了，，这里我整理了一下这些问题</p>
 <h1 id="第一种情况"><a href="#第一种情况" class="headerlink" title="第一种情况"></a>第一种情况</h1><ul>
-<li>ping不了github.com<br>到本地hosts文件中添加一条github记录，并且删除.ssh中的known_hosts文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">192.30.255.112 github.com git </span><br><span class="line">185.31.16.184 github.global.ssl.fastly.net</span><br></pre></td></tr></table></figure>
+<li>ping不了github.com<br>到本地hosts文件中添加一条github记录，并且删除.ssh中的known_hosts文件<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">192.30.255.112 github.com git </span><br><span class="line">185.31.16.184 github.global.ssl.fastly.net</span><br></pre></td></tr></table></figure></div>
 
 </li>
 </ul>
 <p>然后本地ping通了github，，，遂解决了连接不上的问题</p>
 <h1 id="第二种情况"><a href="#第二种情况" class="headerlink" title="第二种情况"></a>第二种情况</h1><ul>
-<li>22端口被占用<br>在.ssh文件夹中添加一个config文件，内容为：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">User git</span><br><span class="line">Hostname ssh.github.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~/.ssh/id_rsa</span><br><span class="line">Port 443</span><br></pre></td></tr></table></figure>
+<li>22端口被占用<br>在.ssh文件夹中添加一个config文件，内容为：<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">User git</span><br><span class="line">Hostname ssh.github.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~/.ssh/id_rsa</span><br><span class="line">Port 443</span><br></pre></td></tr></table></figure></div>
 
 </li>
 </ul>
 <h1 id="第三种"><a href="#第三种" class="headerlink" title="第三种"></a>第三种</h1><ul>
-<li>ssh key失效了<br>删除.ssh，重新进行配置<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;yournamne&quot;</span><br><span class="line">git config --global user.email &quot;youremail&quot;</span><br><span class="line">ssh-keygen -t rsa -C &quot;youremail&quot;</span><br><span class="line">将.ssh中id_rsa.pub中的内容复制到github中ssh and gpg keys</span><br></pre></td></tr></table></figure>
+<li>ssh key失效了<br>删除.ssh，重新进行配置<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;yournamne&quot;</span><br><span class="line">git config --global user.email &quot;youremail&quot;</span><br><span class="line">ssh-keygen -t rsa -C &quot;youremail&quot;</span><br><span class="line">将.ssh中id_rsa.pub中的内容复制到github中ssh and gpg keys</span><br></pre></td></tr></table></figure></div>
 
 </li>
 </ul>
@@ -117,6 +117,15 @@
     
 <nav id="article-nav">
   <div class="article-nav-block">
+    
+      <a href="/2019/10/06/VLAN-与-Trunk/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption"></strong>
+        <div class="article-nav-title">
+          
+            VLAN 与 Trunk
+          
+        </div>
+      </a>
     
   </div>
   <div class="article-nav-block">
@@ -190,6 +199,10 @@ gitment.render('gitmentContainer')
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/10/06/VLAN-与-Trunk/">VLAN 与 Trunk</a>
+          </li>
         
           <li>
             <a href="/2019/10/04/git-ssh连不上github问题/">git ssh连不上github问题</a>

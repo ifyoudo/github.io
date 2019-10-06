@@ -18,7 +18,9 @@
 <meta property="og:description" content="主要内容交换机的帧转发技术，mac地址表的维护方式，三种帧转发模式，冲突域和广播域  帧转发交换机学习“源地址”，基于“目的地址”转发   交换机转发方式   直通式比存储转发型更快速两大特点：快速帧转发，无效帧处理快速帧转发：一旦交换机在MAC地址表中查找到目的MAC地址，就立刻做出转发决定。而无需等待帧的剩余部分进入端口再做出转发决定使用直通方式的交换机能够快速决定是否有必要检查帧头的更多部分">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://yoursite.com/images/Article_images/image01.jpg">
-<meta property="og:updated_time" content="2019-10-05T14:36:14.772Z">
+<meta property="og:image" content="http://yoursite.com/images/Article_images/image02.png">
+<meta property="og:image" content="http://yoursite.com/images/Article_images/image03.png">
+<meta property="og:updated_time" content="2019-10-06T06:56:02.208Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="交换机详解">
 <meta name="twitter:description" content="主要内容交换机的帧转发技术，mac地址表的维护方式，三种帧转发模式，冲突域和广播域  帧转发交换机学习“源地址”，基于“目的地址”转发   交换机转发方式   直通式比存储转发型更快速两大特点：快速帧转发，无效帧处理快速帧转发：一旦交换机在MAC地址表中查找到目的MAC地址，就立刻做出转发决定。而无需等待帧的剩余部分进入端口再做出转发决定使用直通方式的交换机能够快速决定是否有必要检查帧头的更多部分">
@@ -106,11 +108,17 @@
 </li>
 </ol>
 <ul>
-<li>交换机域<br>冲突域和广播域</li>
+<li>交换机域<br>冲突域和广播域<br>形象比喻：<br>局域网好比一栋大楼，每个人（好比主机）有自己的房间（房间就好比网卡，房号就是物理地址，即MAC地址），里面的人（主机）人手一个对讲机，由于工作在同一频道，所以一个人说话，其他人都能听到，这就是广播（向所有主机发送信息包），只有目标才会回应，其他人虽然听见但是不理（丢弃包），而这些能听到广播的所有对讲机设备就够成了一个广播域。而这些对讲机就是集线器（HUB），每个对讲机都像是集线器上的端口，大家都知道对讲机在说话时是不能收听的，必须松开对讲键才能收听，这种同一时刻只能收或者发的工作模式就是半双工。而且对讲机同一时刻只能有一个人说话才能听清楚，如果两个或者更多的人一起说就会产生冲突，都没法听清楚，所以这就构成了一个冲突域。</li>
 </ul>
 <ol>
-<li>冲突域<br>设备间共享同一网段称为冲突域，</li>
+<li><p>冲突域<br>【定义】设备间共享同一网段称为冲突域，简单来说就是同一时间内只有一台设备发送信息的范围<br>【分层】osi的第一层（数据链路层）<br>【设备】第二层设备能隔离冲突域 ，如Switch。交换机能缩小冲突域的范围，交换机的每个端口就是一个冲突域</p>
+</li>
+<li><p>广播域<br>【定义】网络中能接受任一设备发出的广播帧的所有设备的集合。简单说如果站点发出一个广播信号，所有能接收到这个信号的设备范围称为一个广播域<br>【分层】osi的第二层（物理层）<br>【设备】第三层设备隔离广播域，如Router。路由器的每一个端口就是一个广播域</p>
+</li>
 </ol>
+<p><strong>冲突域和广播域实例：</strong><br>例一：一个Switch（交换机）直连三台pc和一台hub（集线器），hub下有两台pc<br><img src="/images/Article_images/image02.png" alt="例一"><br>只有第三层设备才能隔离广播域，上图并没有router等第三层设备。所有，这里广播域没有隔离，也就是说上图只有一个广播域。Switch能缩小冲突域，一个Switch端口就是一个冲突域，上图三台pc和一台hub直连到switch上，所有有四个冲突域</p>
+<p>例二：一台router下连两台交换机和一台hub，两台交换机下分别有三台pc，而hub下连有四台pc<br><img src="/images/Article_images/image03.png" alt="例二"><br>算出广播域并不难，router三个端口连接两台switch和一台hub，这样就是三个广播域了。这里两台交换机连六台pc，就是六个冲突域了，外加路由器与集线器之间的一个冲突域，，然后再有就是路由器与两个交换机直接也有两个冲突域，这样总的就是九个冲突域了。</p>
+<p>** 最后的几点注意和总结：**<br>    第二层设备只能隔离冲突域，第三层设备才能隔离广播域<br>    路由器不但能隔离广播域，默认也可以隔离冲突域<br>    路由器下直连交换机，则路由器到交换机也是存在冲突域的。</p>
 
       
     </div>
@@ -206,6 +214,10 @@ gitment.render('gitmentContainer')
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/10/06/VLAN-与-Trunk/">VLAN 与 Trunk</a>
+          </li>
         
           <li>
             <a href="/2019/10/04/git-ssh连不上github问题/">git ssh连不上github问题</a>
