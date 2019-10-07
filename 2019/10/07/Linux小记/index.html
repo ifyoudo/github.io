@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Linux小记 | 闪电&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  
+  
+  <meta name="description" content="创建一个连root也删不了的文件,,,其实也不是root删不了 root改下这个文件属性 还是可以删除的,,,查看文件隐藏属性        123lsattr 文件名 lsattr -a 将隐藏文件的属性也列出来lsattr -R 连同子目录的数据也列出来 chattr 改变文件属性，，还有一些参数有兴趣可自行百度，这里 -i 可删除不了这个文件 1chattr -i 不得任意更改文件或目录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux小记">
+<meta property="og:url" content="http://yoursite.com/2019/10/07/Linux小记/index.html">
+<meta property="og:site_name" content="闪电&#39;s Blog">
+<meta property="og:description" content="创建一个连root也删不了的文件,,,其实也不是root删不了 root改下这个文件属性 还是可以删除的,,,查看文件隐藏属性        123lsattr 文件名 lsattr -a 将隐藏文件的属性也列出来lsattr -R 连同子目录的数据也列出来 chattr 改变文件属性，，还有一些参数有兴趣可自行百度，这里 -i 可删除不了这个文件 1chattr -i 不得任意更改文件或目录">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-10-07T12:24:17.697Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux小记">
+<meta name="twitter:description" content="创建一个连root也删不了的文件,,,其实也不是root删不了 root改下这个文件属性 还是可以删除的,,,查看文件隐藏属性        123lsattr 文件名 lsattr -a 将隐藏文件的属性也列出来lsattr -R 连同子目录的数据也列出来 chattr 改变文件属性，，还有一些参数有兴趣可自行百度，这里 -i 可删除不了这个文件 1chattr -i 不得任意更改文件或目录">
+  
+    <link rel="alternate" href="/atom.xml" title="闪电&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/default-avatar.jpg">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/highlight.css">
+</head>
+</html>
+<body>
+  <div id="fullpage" class="mobile-nav-right">
+    
+      <div id="wrapper" title="图片来自网络">
+    
+    
+      <header id="header">
+  <div id="nav-toggle" class="nav-toggle"></div>
+  <div class="head-box global-width">
+    <nav class="nav-box nav-right">
+      
+        <a class="nav-item" href="/" title
+        
+        >首页</a>
+      
+        <a class="nav-item" href="/archives" title
+        
+        >归档</a>
+      
+    </nav>
+  </div>
+</header>
+      <div id="middlecontent" title class="global-width sidebar-right">
+        <section id="main"><article id="post-Linux小记" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 class="article-title" itemprop="name">
+      Linux小记
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2019/10/07/Linux小记/" class="article-date">
+  <time datetime="2019-10-07T10:17:21.000Z" itemprop="datePublished">2019-10-07</time>
+</a>
+    
+    
+  </div>
+  
+    <span id="busuanzi_container_page_pv">
+      本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+    </span>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <p><strong>创建一个连root也删不了的文件</strong><br>,,,其实也不是root删不了 root改下这个文件属性 还是可以删除的,,,<br>查看文件隐藏属性        <div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lsattr 文件名 </span><br><span class="line">lsattr -a 将隐藏文件的属性也列出来</span><br><span class="line">lsattr -R 连同子目录的数据也列出来</span><br></pre></td></tr></table></figure></div></p>
+<p>chattr 改变文件属性，，还有一些参数有兴趣可自行百度，这里 -i 可删除不了这个文件</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chattr -i 不得任意更改文件或目录</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>环境变量</strong><br>name=value 格式</p>
+<ul>
+<li>按生命周期分类<br>  永久环境变量：修改相关配置文件，永久生效<br>  临时环境变量：使用 export命令，在当前终端下生效，关闭终端后失效</li>
+<li>按作用域分类<br>  系统环境变量：对该系统中所有用户生效<br>  用户环境变量：对当前或特定用户生效</li>
+</ul>
+<p>设置方法<br>在/etc/profile中添加变量，这种方法对所有用户生效<br>例如：</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#set our default path</span><br><span class="line">PATH=&quot;/usr/local/sbin:/usr/local/bin:/usr/bin&quot;</span><br><span class="line">export PATH</span><br></pre></td></tr></table></figure></div>
+
+<p>添加之后，使用<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><figcaption><span>/etc/profile``` 让其生效</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">在```~/.bash_profile```中添加变量，对当前用户永久生效</span><br><span class="line">直接运行export 定义变量，这是临时生效</span><br><span class="line">echo $PATH,,或者,,env,,,,,查看所有的环境变量</span><br><span class="line"></span><br><span class="line">LD_PRELOAD</span><br><span class="line">该环境变量可以定义在程序运行前优先加载的动态链接库。在pwn中，可能需要一个特定的libc，这时候就可以定义它：</span><br><span class="line">```LD_PRELOAD=/path/to/libc.so ./binary</span><br></pre></td></tr></table></figure></div></p>
+<p>可以参考，，，<a href="https://blog.csdn.net/king523103/article/details/46929669" target="_blank" rel="noopener">https://blog.csdn.net/king523103/article/details/46929669</a></p>
+<p><strong>procfs</strong><br>是linux内核提供的虚拟文件系统，为访问系统内核数据的操作提供接口。之所以说是虚拟文件系统，是因为它只占内存，而不占存储空间 。用户可以通过procfs查看有关系统硬件机正在运行进程的信息，甚至可以修改某些内容去改变内核的运行状态<br><strong>/proc/cmdline</strong><br>在启动时传递给内核的相关参数信息，通常由lilo或者grub等启动管理工具提供：<br><strong>/proc/cpuinfo</strong><br>记录cpu相关信息<br><strong>/proc/crypto</strong><br>已安装的内核所使用的密码算法和算法的详细信息<br><strong>/proc/devices</strong><br>已加载的所有块设备和字符设备的信息，包含主设备号和设备组名<br><strong>/proc/interrupts</strong><br>x86/x86_64系统上每个IRQ相关的中断号列表，多路处理器平台上每个cpu对于每个i/o设备均有自己的中断号<br><strong>/proc/kcore</strong><br>系统使用的物理内存，以ELF核心文件格式存储<br><strong>/proc/meminfo</strong><br>系统中关于当前内存的使用情况等的信息<br><strong>/proc/mounts</strong><br>每个进程自身挂在名称空间中的所有挂载点列表文件的符号链接<br><strong>/proc/modules</strong><br>当前装入内核的所有模块名称列表，可以由    lsmod    命令使用。其中第一列表示模块 名，第二列表示此模块占用内存空间大小，第三列表示此模块有多少实例被装入， 第四列表示此模块依赖于其它哪些模块，第五列表示此模块的装载状态：Live（已 经装入）、Loading（正在装入）和    Unloading（正在卸载），第六列表示此模块在 内核内存（kernel    memory）中的偏移量</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><figcaption><span>cat</span><a href="/proc/modules">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fuse	118784	3	-	Live	0xffffffffc0d9b000</span><br><span class="line">ccm	    20480	3	-	Live	0xffffffffc0d95000</span><br><span class="line">rfcomm	86016	4	-	Live	0xffffffffc0d7f000</span><br><span class="line">bnep	24576	2	-	Live	0xffffffffc0d78000</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>/proc/slabinfo</strong><br>保存着监视系统中所有活动的slab缓存信息<br><strong>/proc/[pid]/cmdline</strong><br>启动当前进程的完整命令<br><strong>/proc/[pid]/exe</strong><br>指向启动当前进程的可执行文件的符号链接<br>        <strong>/proc/[pid]maps</strong><br>        最常用到的，用于显示进程的内存区域映射信息<br><strong>/proc/[pid]/environ</strong><br>包含了进程的环境变量</p>
+
+      
+    </div>
+    
+      <footer class="article-footer">
+        完
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  <div class="article-nav-block">
+    
+  </div>
+  <div class="article-nav-block">
+    
+      <a href="/2019/10/06/VLAN-与-Trunk/" id="article-nav-older" class="article-nav-link-wrap">
+        <div class="article-nav-title">VLAN 与 Trunk</div>
+        <strong class="article-nav-caption"></strong>
+      </a>
+    
+  </div>
+</nav>
+
+    <link rel="stylesheet" href="/css/gitment.css"> 
+<script src="/js/gitment.js"></script>
+
+<div id="gitmentContainer"></div>
+
+<script>
+var gitment = new Gitment({
+  owner: '',
+  repo: '',
+  oauth: {
+    client_id: '',
+    client_secret: '',
+  },
+})
+gitment.render('gitmentContainer')
+</script>
+
+  
+  
+</article>
+</section>
+        <aside id="sidebar">
+  
+    <div class="widget-box">
+  <div class="avatar-box">
+    <img class="avatar" src="/images/default-avatar.jpg" title="图片来自网络"></img>
+    <h3 class="avatar-name">
+      
+        闪电啊哈哈
+      
+    </h3>
+    <p class="avatar-slogan">
+      何必管一片海，有多澎湃
+    </p>
+  </div>
+</div>
+
+
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-box">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-box">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/07/Linux小记/">Linux小记</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/06/VLAN-与-Trunk/">VLAN 与 Trunk</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/04/git-ssh连不上github问题/">git ssh连不上github问题</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/04/交换机详解/">交换机详解</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/04/this/">this</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+      <div class="widget-box">
+    <h3 class="widget-title">友链</h3>
+    <div class="widget">
+      
+    </div>
+  </div>
+
+  
+</aside>
+      </div>
+      <footer id="footer">
+  <div class="foot-box global-width">
+    &copy; 2019 闪电 &nbsp;&nbsp;
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    &nbsp;|&nbsp;主题 <a href="https://github.com/yiluyanxia/hexo-theme-antiquity">antiquity</a>
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">不蒜子告之   阁下是第<span id="busuanzi_value_site_pv"></span>个访客</span>
+  </div>
+</footer>
+      <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script>
+if (!window.jQuery) {
+var script = document.createElement('script');
+script.src = "/js/jquery-2.0.3.min.js";
+document.body.write(script);
+}
+</script>
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+    </div>
+    <nav id="mobile-nav" class="mobile-nav-box">
+  <div class="mobile-nav-img mobile-nav-top"></div>
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+  <div class="mobile-nav-img  mobile-nav-bottom"></div>
+</nav>    
+  </div>
+</body>
+</html>
