@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Redis小结 | 闪电&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  
+  
+  <meta name="description" content="Redis小结启动 redis-server进去命令行客户端，redis-cli关闭原来服务器，shutdown在远程redis服务器上执行命令，redis-cli -h host -p port -a password 1.set和get命令，键为icando，对应值为youcando（注意，一个键最大存储512MB）    String（字符串） 1234127.0.0.1:6379&amp;gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis小结">
+<meta property="og:url" content="http://yoursite.com/2019/10/19/Redis小结/index.html">
+<meta property="og:site_name" content="闪电&#39;s Blog">
+<meta property="og:description" content="Redis小结启动 redis-server进去命令行客户端，redis-cli关闭原来服务器，shutdown在远程redis服务器上执行命令，redis-cli -h host -p port -a password 1.set和get命令，键为icando，对应值为youcando（注意，一个键最大存储512MB）    String（字符串） 1234127.0.0.1:6379&amp;gt;">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-10-19T14:00:43.412Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis小结">
+<meta name="twitter:description" content="Redis小结启动 redis-server进去命令行客户端，redis-cli关闭原来服务器，shutdown在远程redis服务器上执行命令，redis-cli -h host -p port -a password 1.set和get命令，键为icando，对应值为youcando（注意，一个键最大存储512MB）    String（字符串） 1234127.0.0.1:6379&amp;gt;">
+  
+    <link rel="alternate" href="/atom.xml" title="闪电&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/default-avatar.jpg">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/highlight.css">
+</head>
+</html>
+<body>
+  <div id="fullpage" class="mobile-nav-right">
+    
+      <div id="wrapper" title="图片来自网络">
+    
+    
+      <header id="header">
+  <div id="nav-toggle" class="nav-toggle"></div>
+  <div class="head-box global-width">
+    <nav class="nav-box nav-right">
+      
+        <a class="nav-item" href="/" title
+        
+        >首页</a>
+      
+        <a class="nav-item" href="/archives" title
+        
+        >归档</a>
+      
+    </nav>
+  </div>
+</header>
+      <div id="middlecontent" title class="global-width sidebar-right">
+        <section id="main"><article id="post-Redis小结" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 class="article-title" itemprop="name">
+      Redis小结
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2019/10/19/Redis小结/" class="article-date">
+  <time datetime="2019-10-19T13:59:25.000Z" itemprop="datePublished">2019-10-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/杂记/">杂记</a>
+  </div>
+
+    
+  </div>
+  
+    <span id="busuanzi_container_page_pv">
+      本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+    </span>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <h1 id="Redis小结"><a href="#Redis小结" class="headerlink" title="Redis小结"></a>Redis小结</h1><p>启动 redis-server<br>进去命令行客户端，redis-cli<br>关闭原来服务器，shutdown<br>在远程redis服务器上执行命令，redis-cli -h host -p port -a password</p>
+<p>1.set和get命令，键为icando，对应值为youcando（注意，一个键最大存储512MB）<br>    <strong>String（字符串）</strong></p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; set icando &quot;youcando&quot;</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get icando</span><br><span class="line">&quot;youcando&quot;</span><br></pre></td></tr></table></figure></div>
+
+<pre><code>**Hash（哈希）**</code></pre><p>hash是一个键值对集合，它是一个string类型的fieled和value的映射表，热别适合用于存储对象</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; hmset two field1 &quot;a&quot; field2 &quot;b&quot;</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; hget two field1</span><br><span class="line">&quot;a&quot;</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure></div>
+
+<pre><code>**List（列表）**</code></pre><p>redis 列表是简单的字符串列表，按照插入顺序排序，可以添加一个元素到列表的头部（左边）或者尾部（右边）</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; lpush plant apple</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; lpush plant orange</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; lrange plant 0 1</span><br><span class="line">1) &quot;orange&quot;</span><br><span class="line">2) &quot;apple&quot;</span><br><span class="line">127.0.0.1:6379&gt; lpush plant banana</span><br><span class="line">(integer) 3</span><br><span class="line">127.0.0.1:6379&gt; lrange plant 0 1</span><br><span class="line">1) &quot;banana&quot;</span><br><span class="line">2) &quot;orange&quot;</span><br><span class="line">127.0.0.1:6379&gt; lrange plant 0 2</span><br><span class="line">1) &quot;banana&quot;</span><br><span class="line">2) &quot;orange&quot;</span><br><span class="line">3) &quot;apple&quot;</span><br></pre></td></tr></table></figure></div>
+
+<pre><code>**Set（集合）**</code></pre><p>redis的set是string类型的无序集合<br>集合是通过哈希表实现的，所以添加，删除，查找的复杂度都为o(1)</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; sadd plant apple</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; sadd plant orange</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; sadd plant banana</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; smembers plant</span><br><span class="line">1) &quot;orange&quot;</span><br><span class="line">2) &quot;banana&quot;</span><br><span class="line">3) &quot;apple&quot;</span><br></pre></td></tr></table></figure></div>
+
+<pre><code>**zset（sorted set：有序列表）**</code></pre><p>和set一样也是string类型元素的集合，且不允许重复<br>不同的是每个元素都会关联一个double类型的分数，redis正是通过分数来为集合中的成员进行从小到大的排序<br>成员是唯一的，当分数却可以重复<br>zadd key score member </p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zadd plant 0 apple</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; zadd plant 0 orange</span><br><span class="line"> 127.0.0.1:6379&gt; zadd plant 0 banana</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; zrangebyscore plant 0 1</span><br><span class="line">1) &quot;apple&quot;</span><br><span class="line">2) &quot;banana&quot;</span><br><span class="line">3) &quot;orange&quot;</span><br></pre></td></tr></table></figure></div>
+
+<pre><code>**对键值key的操作**</code></pre><p>见 <a href="https://www.cnblogs.com/reyinever/p/10041108.html" target="_blank" rel="noopener">https://www.cnblogs.com/reyinever/p/10041108.html</a><br>    <a href="https://www.runoob.com/redis/redis-keys.html" target="_blank" rel="noopener">https://www.runoob.com/redis/redis-keys.html</a></p>
+<pre><code>**redis事务**</code></pre><p>可以一次执行多个命令，</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; multi</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; set a aaa</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; set b bbb</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; set c ccc</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; exec</span><br><span class="line">1) OK</span><br><span class="line">2) OK</span><br><span class="line">3) OK</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure></div>
+
+
+      
+    </div>
+    
+      <footer class="article-footer">
+        完
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  <div class="article-nav-block">
+    
+  </div>
+  <div class="article-nav-block">
+    
+      <a href="/2019/10/16/cve-2019-14287-sudo之权限绕过漏洞/" id="article-nav-older" class="article-nav-link-wrap">
+        <div class="article-nav-title">cve-2019-14287:sudo之权限绕过漏洞</div>
+        <strong class="article-nav-caption"></strong>
+      </a>
+    
+  </div>
+</nav>
+
+    <link rel="stylesheet" href="/css/gitment.css"> 
+<script src="/js/gitment.js"></script>
+
+<div id="gitmentContainer"></div>
+
+<script>
+var gitment = new Gitment({
+  owner: '',
+  repo: '',
+  oauth: {
+    client_id: '',
+    client_secret: '',
+  },
+})
+gitment.render('gitmentContainer')
+</script>
+
+  
+  
+</article>
+</section>
+        <aside id="sidebar">
+  
+    <div class="widget-box">
+  <div class="avatar-box">
+    <img class="avatar" src="/images/default-avatar.jpg" title="图片来自网络"></img>
+    <h3 class="avatar-name">
+      
+        闪电啊哈哈
+      
+    </h3>
+    <p class="avatar-slogan">
+      何必管一片海，有多澎湃
+    </p>
+  </div>
+</div>
+
+
+  
+    
+  <div class="widget-box">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/安全相关/">安全相关</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂记/">杂记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络相关/">网络相关</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-box">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-box">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/19/Redis小结/">Redis小结</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/16/cve-2019-14287-sudo之权限绕过漏洞/">cve-2019-14287:sudo之权限绕过漏洞</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/07/Linux小记/">Linux小记</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/06/VLAN-与-Trunk/">VLAN 与 Trunk</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/04/git-ssh连不上github问题/">git ssh连不上github问题</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+      <div class="widget-box">
+    <h3 class="widget-title">友链</h3>
+    <div class="widget">
+      
+    </div>
+  </div>
+
+  
+</aside>
+      </div>
+      <footer id="footer">
+  <div class="foot-box global-width">
+    &copy; 2019 闪电 &nbsp;&nbsp;
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    &nbsp;|&nbsp;主题 <a href="https://github.com/yiluyanxia/hexo-theme-antiquity">antiquity</a>
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">不蒜子告之   阁下是第<span id="busuanzi_value_site_pv"></span>个访客</span>
+  </div>
+</footer>
+      <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script>
+if (!window.jQuery) {
+var script = document.createElement('script');
+script.src = "/js/jquery-2.0.3.min.js";
+document.body.write(script);
+}
+</script>
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+    </div>
+    <nav id="mobile-nav" class="mobile-nav-box">
+  <div class="mobile-nav-img mobile-nav-top"></div>
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+  <div class="mobile-nav-img  mobile-nav-bottom"></div>
+</nav>    
+  </div>
+</body>
+</html>
