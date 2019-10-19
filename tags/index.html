@@ -5,25 +5,19 @@
   
 
   
-  <title>cve-2019-14287:sudo之权限绕过漏洞 | 闪电&#39;s Blog</title>
+  <title>tags | 闪电&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
   
   
-  <meta name="description" content="cve-2019-14287:sudo之权限绕过漏洞影响版本：sudo 1.8.28之前的所有版本这里我的环境是Centos7，sudo版本为1.8.23/etc/sudoers 文件中all关键字允许admin或者sudo组中的所有用户以系统中的任何有效用户身份允许任何命令sudoers文件如下：要使用sudo绕过，前提是要有上面sudoers文件的安全策略设置 root    ALL=(ALL">
-<meta property="og:type" content="article">
-<meta property="og:title" content="cve-2019-14287:sudo之权限绕过漏洞">
-<meta property="og:url" content="http://yoursite.com/2019/10/16/cve-2019-14287-sudo之权限绕过漏洞/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="tags">
+<meta property="og:url" content="http://yoursite.com/tags/index.html">
 <meta property="og:site_name" content="闪电&#39;s Blog">
-<meta property="og:description" content="cve-2019-14287:sudo之权限绕过漏洞影响版本：sudo 1.8.28之前的所有版本这里我的环境是Centos7，sudo版本为1.8.23/etc/sudoers 文件中all关键字允许admin或者sudo组中的所有用户以系统中的任何有效用户身份允许任何命令sudoers文件如下：要使用sudo绕过，前提是要有上面sudoers文件的安全策略设置 root    ALL=(ALL">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://yoursite.com/images/Article_images/linux_test.png">
-<meta property="og:image" content="http://yoursite.com/images/Article_images/linux_test2.png">
-<meta property="og:updated_time" content="2019-10-19T13:44:21.432Z">
+<meta property="og:updated_time" content="2019-10-19T13:43:41.793Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="cve-2019-14287:sudo之权限绕过漏洞">
-<meta name="twitter:description" content="cve-2019-14287:sudo之权限绕过漏洞影响版本：sudo 1.8.28之前的所有版本这里我的环境是Centos7，sudo版本为1.8.23/etc/sudoers 文件中all关键字允许admin或者sudo组中的所有用户以系统中的任何有效用户身份允许任何命令sudoers文件如下：要使用sudo绕过，前提是要有上面sudoers文件的安全策略设置 root    ALL=(ALL">
-<meta name="twitter:image" content="http://yoursite.com/images/Article_images/linux_test.png">
+<meta name="twitter:title" content="tags">
   
     <link rel="alternate" href="/atom.xml" title="闪电&#39;s Blog" type="application/atom+xml">
   
@@ -60,27 +54,23 @@
   </div>
 </header>
       <div id="middlecontent" title class="global-width sidebar-right">
-        <section id="main"><article id="post-cve-2019-14287-sudo之权限绕过漏洞" class="article global-container article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="page-" class="article global-container article-type-page" itemscope itemprop="blogPost">
   
     <header class="article-header">
       
   
     <h1 class="article-title" itemprop="name">
-      cve-2019-14287:sudo之权限绕过漏洞
+      tags
     </h1>
   
 
     </header>
   
   <div class="article-meta">
-    <a href="/2019/10/16/cve-2019-14287-sudo之权限绕过漏洞/" class="article-date">
-  <time datetime="2019-10-16T07:49:45.000Z" itemprop="datePublished">2019-10-16</time>
+    <a href="/tags/index.html" class="article-date">
+  <time datetime="2019-10-19T13:43:04.000Z" itemprop="datePublished">2019-10-19</time>
 </a>
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/安全相关/">安全相关</a>
-  </div>
-
     
   </div>
   
@@ -93,13 +83,7 @@
     
     <div class="article-content article-content-cloud" itemprop="articleBody">
       
-        <h1 id="cve-2019-14287-sudo之权限绕过漏洞"><a href="#cve-2019-14287-sudo之权限绕过漏洞" class="headerlink" title="cve-2019-14287:sudo之权限绕过漏洞"></a>cve-2019-14287:sudo之权限绕过漏洞</h1><p>影响版本：sudo 1.8.28之前的所有版本<br>这里我的环境是Centos7，sudo版本为1.8.23<br>/etc/sudoers 文件中all关键字允许admin或者sudo组中的所有用户以系统中的任何有效用户身份允许任何命令<br>sudoers文件如下：<br><img src="/images/Article_images/linux_test.png" alt="sudoers文件"><br>要使用sudo绕过，前提是要有上面sudoers文件的安全策略设置 root    ALL=(ALL:ALL)ALL</p>
-<p><strong>如何利用这个漏洞：</strong></p>
-<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u#-1 命令，，，或者 sudo -u#4294967295</span><br></pre></td></tr></table></figure></div>
-
-<p>下面开始测试，<br><img src="/images/Article_images/linux_test2.png" alt></p>
-<p><strong>最后</strong><br>导致这个漏洞的原因是由于将用户ID转换为用户名的函数会将-1（或无效等效的4294967295）误认为是0，，而0有恰好是root的ID</p>
-
+        
       
     </div>
     
@@ -110,20 +94,6 @@
   </div>
   
     
-<nav id="article-nav">
-  <div class="article-nav-block">
-    
-  </div>
-  <div class="article-nav-block">
-    
-      <a href="/2019/10/07/Linux小记/" id="article-nav-older" class="article-nav-link-wrap">
-        <div class="article-nav-title">Linux小记</div>
-        <strong class="article-nav-caption"></strong>
-      </a>
-    
-  </div>
-</nav>
-
     <link rel="stylesheet" href="/css/gitment.css"> 
 <script src="/js/gitment.js"></script>
 
