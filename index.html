@@ -55,6 +55,102 @@
       <div id="middlecontent" title class="global-width sidebar-right">
         <section id="main">
   
+    <article id="post-CVE-2019-11043-复现" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/24/CVE-2019-11043-复现/">CVE-2019-11043 复现</a>
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2019/10/24/CVE-2019-11043-复现/" class="article-date">
+  <time datetime="2019-10-24T02:36:41.000Z" itemprop="datePublished">2019-10-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/漏洞复现/">漏洞复现</a>
+  </div>
+
+    
+  </div>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <h1 id="CVE-2019-11043-复现"><a href="#CVE-2019-11043-复现" class="headerlink" title="CVE-2019-11043 复现"></a>CVE-2019-11043 复现</h1><p><strong>漏洞详情</strong><br>2019年10月22日,国外安全研究员公开了一个PHP-FPM远程代码执行的漏洞EXP.<br>该漏洞 是Andrew Danau在某比赛解决一道 CTF 题目时发现,向目标服务器 URL 发送 %0a 符号时，服务返回异常发现的漏洞.<br>2019年9月26日,PHP官方发布漏洞通告,其中指出:使用 Nginx + php-fpm的服务器,在部分配置下,存在远程代码执行漏洞.且该配置已被广泛使用，危害较大,影响较为广泛.相关工具已经公开在Github</p>
+<p><strong>环境搭建</strong><br>Vulhub中现成的环境，，所以这里直接在docker里部署就ok，。</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/vulhub/vulhub  //下载vulhub </span><br><span class="line">Apt install golang-go  //安装go</span><br><span class="line">go get -u github.com/neex/phuip-fpizdam  //下载exp</span><br></pre></td></tr></table></figure></div>
+
+<p>进入/vulhub/php/CVE-2019-11043，，启动环境<br><img src="/images/Article_images/cve-2019-11043_1.png" alt></p>
+<p>docker-compose up -d 拉取镜像<br><img src="/images/Article_images/cve-2019-11043_2.png" alt></p>
+<p>然后docker ps查看<br><img src="/images/Article_images/cve-2019-11043_3.png" alt></p>
+<p>,环境已经成功启动<br><img src="/images/Article_images/cve-2019-11043_4.png" alt></p>
+<p><strong>下面开始利用</strong><br>cd go/bin<br>/phuip-fpizdam <a href="http://192.168.78.130:8080/index.php" target="_blank" rel="noopener">http://192.168.78.130:8080/index.php</a><br><img src="/images/Article_images/cve-2019-11043_5.png" alt><br><img src="/images/Article_images/cve-2019-11043_6.png" alt><br>这里可以看到以及成功利用</p>
+<p><strong>修复建议及影响范围</strong><br>影响范围：PHP 5.6-7.x<br>修改nginx配置文件中fastcgi_split_path_info的正则表达式,不允许.php之后传入不可显字符<br>OR<br>暂停使用 nginx+php-fpm 服务<br>OR<br>删除如下配置</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fastcgi_split_path_info ^(.+?\.php)(/.*)$;</span><br><span class="line">fastcgi_param PATH_INFO $fastcgi_path_info;</span><br></pre></td></tr></table></figure></div>
+
+
+      
+    </div>
+    
+  </div>
+  
+  
+</article>
+
+  
+    <article id="post-WiFi网络结构" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/23/WiFi网络结构/">WiFi网络结构</a>
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2019/10/23/WiFi网络结构/" class="article-date">
+  <time datetime="2019-10-23T07:00:33.000Z" itemprop="datePublished">2019-10-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/无线渗透/">无线渗透</a>
+  </div>
+
+    
+  </div>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <h1 id="wifi网络结构"><a href="#wifi网络结构" class="headerlink" title="wifi网络结构"></a>wifi网络结构</h1><p>一般架设wifi网络的基本设备就是无线网卡和一台AP，AP为Access point的简称，一般翻译为“无线访问介入点”或者“桥接器”，如无线路由器，他主要在媒体存取控制层mac中扮演无线工作站与有线局域网的桥梁。<br>有了AP，就像有线网络的Hub(集线器),无线工作站就可以快速轻易地与无线网络相连。<br>        单纯型AP<br>      /<br>无线AP<br>      <br>        扩展型Ap</p>
+<p><strong>单纯型AP</strong><br>由于缺少路由功能，仅仅提供一个无线信号发射的功能，他的工作原理是将网络信号通过双绞线传送过来，经过无线AP的编译，将电信号转化为无线电信号发送出来，形成wifi共享上网的覆盖，根据不同的功率，网络的覆盖程度也是不同的，一般无线AP的最大覆盖距离可达400m</p>
+<p><strong>扩展型Ap</strong><br>扩展型AP就是人们常说的无线路由器，无线路由器，顾名思义就是带有无线覆盖功能的路由器。通过路由功能，可以实现家庭wifi共享上网的internet连接共享，也能实现ADSL和小区宽带的无线共享接入</p>
+<p><strong>AP常用语</strong><br>1.SSID<br>Service Set Identifier缩写，意思是服务集标识。SSID技术可以将一个无线局域网分为几个需要不同身份验证的自网络，每一个子网络都需要独立的身份验证。只有通过身份验证的用户才可以进入相应的子网络，防止未授权进入网络<br>，可区分不同网络，SSID通常由AP广播出来，简单说SSID就是一个局域网名称。<br>2.信道<br>无线信道也就是常说的无线的“频段”,其是以无线信号作为传输媒体的数据信号传送通道。在无线路由器中，通常有13个信道。<br>3.模式<br>指802.11协议的几种类型，通常在无线路由器中包括五种模式，分别是11b only，11g only，11n only，11bg mixed和11bgn mixed</p>
+<p><strong>频段带宽</strong><br>是发送无线信号频率的标准，频率越高越易失帧，在11n模式中，一般包括20MHz和40MHz两个频段带宽，其中20MHz在11n的情况下能达到144Mbps带宽，且穿透性好，传输距离远（100m左右）；40MHz在11n的情况下能达到300Mbps带宽，穿透性差，传输距离近（约50m）<br><strong>WDS（无线分布式系统）</strong><br>Wireless Distribution System，无线分布式系统。是一个在IEEE802.11网络中多个无线访问点通过无线互联的系统。他允许将无线网络通过多个访问点进行扩展，而不像以前一样无线访问点要有线进行连接，这种可扩展性能，使无线网络具有更大的传输距离。</p>
+<p><strong>WirelessMon规划频段</strong><br>想完全错开使用信道不容易，可以做到尽量避免冲突，在windows中提供wirelessmon工具，可以监控无线适配器和聚集状态，并显示周边无线接入点或基站实时信息的工具</p>
+
+      
+    </div>
+    
+  </div>
+  
+  
+</article>
+
+  
     <article id="post-Redis小结" class="article global-container article-type-post" itemscope itemprop="blogPost">
   
     <header class="article-header">
@@ -132,7 +228,7 @@
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/安全相关/">安全相关</a>
+    <a class="article-category-link" href="/categories/漏洞复现/">漏洞复现</a>
   </div>
 
     
@@ -213,6 +309,11 @@
 <div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$cat /proc/modules</span><br><span class="line">fuse	118784	3	-	Live	0xffffffffc0d9b000</span><br><span class="line">ccm	   20480 3	-	Live	0xffffffffc0d95000</span><br><span class="line">rfcomm	86016	4	-	Live	0xffffffffc0d7f000</span><br><span class="line">bnep	24576	2	-	Live	0xffffffffc0d78000</span><br></pre></td></tr></table></figure></div>
 
 <p><strong>/proc/slabinfo</strong><br>保存着监视系统中所有活动的slab缓存信息<br><strong>/proc/[pid]/cmdline</strong><br>启动当前进程的完整命令<br><strong>/proc/[pid]/exe</strong><br>指向启动当前进程的可执行文件的符号链接<br>        <strong>/proc/[pid]maps</strong><br>        最常用到的，用于显示进程的内存区域映射信息<br><strong>/proc/[pid]/environ</strong><br>包含了进程的环境变量</p>
+<p>============================================================================================================================================================<br><strong>这里记载着某些时候需要用到的命令</strong><br>df -hl 查看磁盘剩余空间</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">└──╼ #df -hl</span><br><span class="line">Filesystem      Size  Used Avail Use% Mounted on</span><br><span class="line">udev            950M     0  950M   0% /dev</span><br><span class="line">tmpfs           197M   16M  181M   9% /run</span><br><span class="line">/dev/sda5        80G  6.4G   72G   9% /</span><br><span class="line">tmpfs           984M     0  984M   0% /dev/shm</span><br><span class="line">tmpfs           5.0M  4.0K  5.0M   1% /run/lock</span><br><span class="line">tmpfs           984M     0  984M   0% /sys/fs/cgroup</span><br><span class="line">/dev/sda1       346M   81M  243M  25% /boot</span><br><span class="line">tmpfs           197M   20K  197M   1% /run/user/0</span><br></pre></td></tr></table></figure></div>
+
+<p>这里/dev/sda1 表示,,,sd硬盘接口的第一个硬盘(a),第一个分区(1)，</p>
+<p>du -sh[目录名]返回该目录大小<br>df -h 查看每个根路径分区大小<br>df -sh * 查看每个文件夹大小</p>
 
       
     </div>
@@ -460,7 +561,7 @@
   <div class="widget-box">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/安全相关/">安全相关</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂记/">杂记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络相关/">网络相关</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/无线渗透/">无线渗透</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂记/">杂记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/漏洞复现/">漏洞复现</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络相关/">网络相关</a></li></ul>
     </div>
   </div>
 
@@ -487,6 +588,14 @@
       <ul>
         
           <li>
+            <a href="/2019/10/24/CVE-2019-11043-复现/">CVE-2019-11043 复现</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/23/WiFi网络结构/">WiFi网络结构</a>
+          </li>
+        
+          <li>
             <a href="/2019/10/19/Redis小结/">Redis小结</a>
           </li>
         
@@ -496,14 +605,6 @@
         
           <li>
             <a href="/2019/10/07/Linux小记/">Linux小记</a>
-          </li>
-        
-          <li>
-            <a href="/2019/10/06/VLAN-与-Trunk/">VLAN 与 Trunk</a>
-          </li>
-        
-          <li>
-            <a href="/2019/10/04/git-ssh连不上github问题/">git ssh连不上github问题</a>
           </li>
         
       </ul>
