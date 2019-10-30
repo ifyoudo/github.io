@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>关于php反序列化漏洞小记 | 闪电&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  
+  
+  <meta name="description" content="关于php反序列化漏洞小记php程序为了保存和存储对象，提供了序列化的方法，php序列化是为了在程序运行的过程中对对象进行转储而产生的。序列化可以将对象转换成转换成字符串，但仅保留对象中的成员变量，不保留函数方法。php序列化的函数为serialize，反序列化函数为unserialize 看这样一段php代码， 12345678910111213&amp;lt;?phpclass Test&amp;#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于php反序列化漏洞小记">
+<meta property="og:url" content="http://yoursite.com/2019/10/30/关于php反序列化漏洞小记/index.html">
+<meta property="og:site_name" content="闪电&#39;s Blog">
+<meta property="og:description" content="关于php反序列化漏洞小记php程序为了保存和存储对象，提供了序列化的方法，php序列化是为了在程序运行的过程中对对象进行转储而产生的。序列化可以将对象转换成转换成字符串，但仅保留对象中的成员变量，不保留函数方法。php序列化的函数为serialize，反序列化函数为unserialize 看这样一段php代码， 12345678910111213&amp;lt;?phpclass Test&amp;#123;">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-10-30T03:15:05.753Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于php反序列化漏洞小记">
+<meta name="twitter:description" content="关于php反序列化漏洞小记php程序为了保存和存储对象，提供了序列化的方法，php序列化是为了在程序运行的过程中对对象进行转储而产生的。序列化可以将对象转换成转换成字符串，但仅保留对象中的成员变量，不保留函数方法。php序列化的函数为serialize，反序列化函数为unserialize 看这样一段php代码， 12345678910111213&amp;lt;?phpclass Test&amp;#123;">
+  
+    <link rel="alternate" href="/atom.xml" title="闪电&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/default-avatar.jpg">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/highlight.css">
+</head>
+</html>
+<body>
+  <div id="fullpage" class="mobile-nav-right">
+    
+      <div id="wrapper" title="图片来自网络">
+    
+    
+      <header id="header">
+  <div id="nav-toggle" class="nav-toggle"></div>
+  <div class="head-box global-width">
+    <nav class="nav-box nav-right">
+      
+        <a class="nav-item" href="/" title
+        
+        >首页</a>
+      
+        <a class="nav-item" href="/archives" title
+        
+        >归档</a>
+      
+    </nav>
+  </div>
+</header>
+      <div id="middlecontent" title class="global-width sidebar-right">
+        <section id="main"><article id="post-关于php反序列化漏洞小记" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 class="article-title" itemprop="name">
+      关于php反序列化漏洞小记
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2019/10/30/关于php反序列化漏洞小记/" class="article-date">
+  <time datetime="2019-10-30T03:10:39.000Z" itemprop="datePublished">2019-10-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/WEB相关/">WEB相关</a>
+  </div>
+
+    
+  </div>
+  
+    <span id="busuanzi_container_page_pv">
+      本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+    </span>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <h1 id="关于php反序列化漏洞小记"><a href="#关于php反序列化漏洞小记" class="headerlink" title="关于php反序列化漏洞小记"></a>关于php反序列化漏洞小记</h1><p>php程序为了保存和存储对象，提供了序列化的方法，php序列化是为了在程序运行的过程中对对象进行转储而产生的。<br>序列化可以将对象转换成转换成字符串，但仅保留对象中的成员变量，不保留函数方法。<br>php序列化的函数为serialize，反序列化函数为unserialize</p>
+<p>看这样一段php代码，</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class Test&#123;</span><br><span class="line">		public $a=&apos;this a&apos;;</span><br><span class="line">		protected $b=&apos;this b&apos;;</span><br><span class="line">		private $c=&apos;this C&apos;;</span><br><span class="line">		</span><br><span class="line">		public function test1()&#123;	</span><br><span class="line">		 return &apos;this is test 1&apos;;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br><span class="line">	$test=new Test();</span><br><span class="line">	var_dump(serialize($test)); //var_dump用于输出变量的相关信息，显示关于一个或多个表达式的结构信息，包括表达式的类型与值</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></div>
+
+<p>输出结果为<br>string(87) “O:4:”Test”:3:{s:1:”a”;s:6:”this a”;s:4:”<em>b”;s:6:”this b”;s:7:”Testc”;s:6:”this C”;}”<br>相关解释：<br>O代表对象,4表示该对象名称有4个字符，<br>“Test”表示该对象名称，<br>3表示该对象有3个成员，<br>接着是括号里的。这个类的三个成员变量由于变量前的修饰不同，序列化后显示的也不同。<br>第一个变量a序列化后为s:1:”a”;s:6:”this a”;   序列化后的字符串以分号分隔每一个变量特征。<br>分号左边是变量名，分号右边是变量值，这里s表示字符串，1表示字符串中只有一个字符，“a”表示该字符串为a，右边的同理<br>第二个变量与第一个有点不同，，多了个 星号(</em>)，这是因为“a”是public属性，而第二个变量b是protected属性，php为了区分这些属性所有进行了一些修饰<br>**另外这里要注意</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">当变量修饰为protected时，序列会时会在变量名前加%00*%00</span><br><span class="line">当变量为private时，会在成员变量名前添加%00类名%00</span><br></pre></td></tr></table></figure></div>
+
+<pre><code>**magic 函数**</code></pre><p>php面向对象变成中，有一类函数叫做magic function，魔术函数，</p>
+<p>这些函数是以<strong>(双下划线)开头的，他们是一些当依照某些规则实例化类或者调用某些函数的时候会自动调用这些magic函数，这里说一下比较常见的例如</strong>construct，__destory，</p>
+<p><strong>sleep，</strong>wakeup，__toString函数。</p>
+<pre><code>__construct()
+__contstruct()函数被称为构造函数，当实例化类的时候会自动调用该函数
+
+__destruct()
+__destruct()函数被称为析构函数，当类结束的时候自动调用该函数
+
+__sleep()
+__sleep()函数是当php进行序列化操作（serialize）的时候自动调用该函数，可以用于清理对象，并返回一个包含对象中所有应被序列化的变量名称的数组。如果该方法未返回任何内容，则 NULL 被序列化，并产生一个 E_NOTICE 级别的错误。
+
+__wakeup()
+__wakeup()函数是当php进行反序列化操作（unserialize）的时候自动调用该函数
+
+__toString()
+__toString()函数是当对象被当做字符串的时候会自动调用该函数</code></pre><p><strong>php反序列化漏洞</strong></p>
+<p>这里来个小栗子：</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class A&#123;</span><br><span class="line">    function __destruct()&#123;</span><br><span class="line">            echo $this-&gt;test;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$a = $_GET[&apos;test&apos;];</span><br><span class="line">$a_unser = unserialize($a);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></div>
+
+<p>这里控制test参数就可以进行反射型xss，例如将test=O:1:”A”:1:{s:4:”test”;s:29:”<script>alert(/aaa/)</script>“;}</p>
+<p>这篇文章更为详细</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://chybeta.github.io/2017/06/17/%E6%B5%85%E8%B0%88php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/</span><br></pre></td></tr></table></figure></div>
+      
+    </div>
+    
+      <footer class="article-footer">
+        完
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  <div class="article-nav-block">
+    
+  </div>
+  <div class="article-nav-block">
+    
+      <a href="/2019/10/24/CVE-2019-11043-复现/" id="article-nav-older" class="article-nav-link-wrap">
+        <div class="article-nav-title">CVE-2019-11043 复现</div>
+        <strong class="article-nav-caption"></strong>
+      </a>
+    
+  </div>
+</nav>
+
+    <link rel="stylesheet" href="/css/gitment.css"> 
+<script src="/js/gitment.js"></script>
+
+<div id="gitmentContainer"></div>
+
+<script>
+var gitment = new Gitment({
+  owner: '',
+  repo: '',
+  oauth: {
+    client_id: '',
+    client_secret: '',
+  },
+})
+gitment.render('gitmentContainer')
+</script>
+
+  
+  
+</article>
+</section>
+        <aside id="sidebar">
+  
+    <div class="widget-box">
+  <div class="avatar-box">
+    <img class="avatar" src="/images/default-avatar.jpg" title="图片来自网络"></img>
+    <h3 class="avatar-name">
+      
+        闪电啊哈哈
+      
+    </h3>
+    <p class="avatar-slogan">
+      何必管一片海，有多澎湃
+    </p>
+  </div>
+</div>
+
+
+  
+    
+  <div class="widget-box">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB相关/">WEB相关</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/无线渗透/">无线渗透</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂记/">杂记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/漏洞复现/">漏洞复现</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络工程/">网络工程</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-box">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-box">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/30/关于php反序列化漏洞小记/">关于php反序列化漏洞小记</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/24/CVE-2019-11043-复现/">CVE-2019-11043 复现</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/23/WiFi网络结构/">WiFi网络结构</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/19/Redis小结/">Redis小结</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/16/cve-2019-14287-sudo之权限绕过漏洞/">cve-2019-14287:sudo之权限绕过漏洞</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+      <div class="widget-box">
+    <h3 class="widget-title">友链</h3>
+    <div class="widget">
+      
+    </div>
+  </div>
+
+  
+</aside>
+      </div>
+      <footer id="footer">
+  <div class="foot-box global-width">
+    &copy; 2019 闪电 &nbsp;&nbsp;
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    &nbsp;|&nbsp;主题 <a href="https://github.com/yiluyanxia/hexo-theme-antiquity">antiquity</a>
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">不蒜子告之   阁下是第<span id="busuanzi_value_site_pv"></span>个访客</span>
+  </div>
+</footer>
+      <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script>
+if (!window.jQuery) {
+var script = document.createElement('script');
+script.src = "/js/jquery-2.0.3.min.js";
+document.body.write(script);
+}
+</script>
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+    </div>
+    <nav id="mobile-nav" class="mobile-nav-box">
+  <div class="mobile-nav-img mobile-nav-top"></div>
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+  <div class="mobile-nav-img  mobile-nav-bottom"></div>
+</nav>    
+  </div>
+</body>
+</html>
