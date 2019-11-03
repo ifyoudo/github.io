@@ -55,6 +55,97 @@
       <div id="middlecontent" title class="global-width sidebar-right">
         <section id="main">
   
+    <article id="post-操作系统概述" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/03/操作系统概述/">操作系统概述</a>
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2019/11/03/操作系统概述/" class="article-date">
+  <time datetime="2019-11-03T10:15:24.000Z" itemprop="datePublished">2019-11-03</time>
+</a>
+    
+    
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计算机操作系统/">计算机操作系统</a></li></ul>
+
+  </div>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <h1 id="操作系统概述"><a href="#操作系统概述" class="headerlink" title="操作系统概述"></a>操作系统概述</h1><pre><code>操作系统概念:
+    控制和管理整个计算机系统的硬件与软件资源，合理地组织，调度计算机的工作与资源的分配，进而为用户和其他软件提供方便接口与环境的程序接口。操作系统是随着计算机研究和引用的发展逐步形成并发展起来的，他是计算机系统中最基本的系统软件
+
+并发(Concurrence):
+    两个或多个事件在同一时间间隔内发生。操作系统并发性是指计算机系统中同时存在多个运行的程序，因此它具有处理和调度多个程序同时执行的能力，在操作系统中，因此引入进程的目的是使程序能够并发执行
+
+共享(Sharing):
+    系统中的资源可供内存中多个并发执行的进程使用
+
+        互斥共享:
+            系统中某些资源，规定在一段时间内只允许一个进程访问该资源。典型资源:打印机，磁带机。
+
+        同时访问:
+            系统中另一些资源允许一段时间内由多个进程&quot;同时&quot;访问。这里的&quot;同时&quot;通常是宏观上的，微观上，这些进程可能是交替对资源进行访问即&quot;分时共享&quot;的。典型资源是磁盘设备
+
+
+虚拟(Virtual)：
+    把一个物理上的实体变为若干逻辑上的对应物。物理实体是实的，后者是用户感觉上的事物。操作系统中利用了多种虚拟技术来实现虚拟处理器，虚拟内存和虚拟外设
+
+        虚拟处理器技术:
+            通过躲到程序设计技术，采用让多道程序并发执行的方法，来分时使用一个处理器。
+
+        虚拟技术:
+                时分复用技术，如处理器分时共享;空分复用技术，如虚拟存储器
+
+  异步(Asynchronism):
+      多道程序环境允许多个程序并发执行，但由于资源有限，进程的执行并不是一贯到底，而是走走停停，它以不可预知的速度向前推进，这就是进程异步</code></pre><ul>
+<li><p>操作系统目标和功能</p>
+<p>  为给多道程序提供良好的运行环境，操作系统应具备以下功能:</p>
+<pre><code>处理机管理
+存储器管理
+设备管理
+文件管理    </code></pre><p>  操作系统作为计算机系统资源的管理者:</p>
+<pre><code>1&gt; 处理机管理:
+            多道程序环境下，处理机的分配和运行都以进程为基本单位，因此对处理机的管理可归结为对进程的管理。并发是指计算机内同时运行多个进程，因此进程何时创建，何时撤销，如何管理，如何避免冲突，合理共享就是进程管理的最主要任务。进程管理主要功能包括进程控制，进程同步，进程通信，死锁处理，处理机调度等
+
+2&gt;存储器管理:
+            为了给多道程序的运行提供良好的环境。方便用户使用使用及提高内存的利用率，主要包括内存分配，地址映射，内存保护与共享和内存扩充等功能
+
+3&gt;文件管理:
+            计算机中的信息都是以文件的形式存在的，操作系统中负责文件管理的部分称为文件系统。文件管理包括文件存储空间的管理，目录管理及文件读写管理和保护等
+
+4&gt;设备管理:
+        完成用户I/O请求，方便用户使用各种设备，并提高设备的利用率，主要包括缓存管理,设备分配，设备处理和虚拟设备等功能</code></pre></li>
+</ul>
+<pre><code>操作系统作为用户与计算机硬件系统之间的接口:
+
+                                    操作系统提供的接口主要分为两类:命令接口，用户利用这些操作命令来组织和控制作业的执行；另一类是程序接口，编程人员可以使用它们来请求操作系统服务
+
+
+
+    1&gt;命令接口:
+            使用命令接口进行作业控制主要有两种方式:联机控制，脱机控制。按作业控制方式不同，可将命令接口分为 联机命令接口 和 脱机命令接口
+
+                    联机命令接口:</code></pre>
+      
+    </div>
+    
+  </div>
+  
+  
+</article>
+
+  
     <article id="post-每日一记" class="article global-container article-type-post" itemscope itemprop="blogPost">
   
     <header class="article-header">
@@ -84,7 +175,7 @@
     
     <div class="article-content article-content-cloud" itemprop="articleBody">
       
-        <h1 id="每日一记"><a href="#每日一记" class="headerlink" title="每日一记"></a>每日一记</h1><pre><code>-------第一日--------</code></pre><p>abandon     /丢弃，放弃，抛弃<br>a heap of    /一堆<br>a list of     /一列，一栏<br>a shoulder to cry on    /一个可以倾诉苦楚的人<br>abroad        /到国外，在国外<br>acclaim        /欢呼,拥戴<br>accommodation        /住处，住所<br>accumulate        /积累<br>accompany        /伴随，陪伴<br>acquaint        /与…相识<br>acquaintance    /相识的人<br>addition        /增加<br>add to             /增加;有助于<br>acquire            /取得,获得</p>
+        <h1 id="每日一记"><a href="#每日一记" class="headerlink" title="每日一记"></a>每日一记</h1><pre><code>-------第一日--------</code></pre><p>abandon     /丢弃，放弃，抛弃<br>a heap of    /一堆<br>a list of     /一列，一栏<br>a shoulder to cry on    /一个可以倾诉苦楚的人<br>abroad        /到国外，在国外<br>acclaim        /欢呼,拥戴<br>accommodation        /住处，住所<br>accumulate        /积累<br>accompany        /伴随，陪伴<br>acquaint        /与…相识<br>acquaintance    /相识的人<br>addition        /增加<br>add to             /增加;有助于<br>acquire            /取得,获得<br>adjust            /调整,调节,使适合<br>advantage        /有利条件，优势，优点<br>agent            /代理人，代理商<br>along with        /跟…一块<br>altruistic        /利他的<br>amaze            /使大为吃惊的，使惊奇</p>
 
       
     </div>
@@ -543,74 +634,6 @@ __toString()函数是当对象被当做字符串的时候会自动调用该函�
 </article>
 
   
-    <article id="post-交换机详解" class="article global-container article-type-post" itemscope itemprop="blogPost">
-  
-    <header class="article-header">
-      
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/04/交换机详解/">交换机详解</a>
-    </h1>
-  
-
-    </header>
-  
-  <div class="article-meta">
-    <a href="/2019/10/04/交换机详解/" class="article-date">
-  <time datetime="2019-10-04T10:42:06.000Z" itemprop="datePublished">2019-10-04</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/网络工程/">网络工程</a>
-  </div>
-
-    
-  </div>
-  
-
-  <div class="article-inner">
-    
-    <div class="article-content article-content-cloud" itemprop="articleBody">
-      
-        <h1 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h1><p>交换机的帧转发技术，mac地址表的维护方式，三种帧转发模式，冲突域和广播域</p>
-<ul>
-<li>帧转发<br>交换机学习“源地址”，基于“目的地址”转发</li>
-</ul>
-<ul>
-<li>交换机转发方式</li>
-</ul>
-<ol>
-<li>直通式<br>比存储转发型更快速<br>两大特点：快速帧转发，无效帧处理<br>快速帧转发：<br>一旦交换机在MAC地址表中查找到目的MAC地址，就立刻做出转发决定。而无需等待帧的剩余部分进入端口再做出转发决定<br>使用直通方式的交换机能够快速决定是否有必要检查帧头的更多部分，以针对额外的过滤目的。例如，交换机可以检查前14个字节（源MAC地址，目的MAC，以太网类型字段），以及对之后的40字节进行检查，以实现IPv4三层和四层相关功能。</li>
-</ol>
-<p>无效帧处理：<br>对于大多数无效帧，直通方式交换机并不将其丢弃。错误帧被转发至其他网段。如果网络中出现高差错率（无效帧），直通交换可能会对带宽造成不利影响，损坏以及无效帧会造成带宽拥塞。在拥塞情况下，这种交换机必须像存储转发交换机那样缓存</p>
-<ol start="2">
-<li><p>存储转发交换<br>交换机在发送信息前八整帧数据读入内存才能并且检查其正确性。虽然这样比直通方式更花时间，但这样可以存储转发数据，从而保证其准确性<br>两大特点：差错控制，自动缓存<br>差错控制：<br>使用存储转发技术的交换机对进入帧进行差错控制。在进入端口接收完整一帧之后，交换机将数据报最后一个字段的帧校验序列（frame check sequence, FCS）与自己的FCS进行比较。FCS校验过程用以帮助确保帧没有物理及数据链路错误，如果该帧校验正确，则交换机转发。否则，丢弃。<br><img src="/images/Article_images/image01.jpg" alt="差错控制"><br>自动缓存：<br>存储转发交换机通过进入端口缓存，支持不同速率以太网的混合连接。例如，接收到一个以1Gb/s速率发出的帧，转发至百兆以太网端口，就需要使用存储转发方式。当进入与输出端口速率不匹配时，交换机将整帧内容放入缓存中，计算FCS校验，转发至输出缓存之后将帧发出。<br>Cisco的主要交换方式是存储转发交换</p>
-</li>
-<li><p>无碎片转发<br>是直通方式的一种改进模式，交换机转发之前检查帧是否大于64字节（小于则丢弃），以保证没有碎片帧。无碎片方式比直通方式拥有更好的差错检测，而实际上没有增加延时。它比较适合于高性能计算应用，即进程到进程延时小于10毫秒的应用场景</p>
-</li>
-</ol>
-<ul>
-<li>交换机域<br>冲突域和广播域<br>形象比喻：<br>局域网好比一栋大楼，每个人（好比主机）有自己的房间（房间就好比网卡，房号就是物理地址，即MAC地址），里面的人（主机）人手一个对讲机，由于工作在同一频道，所以一个人说话，其他人都能听到，这就是广播（向所有主机发送信息包），只有目标才会回应，其他人虽然听见但是不理（丢弃包），而这些能听到广播的所有对讲机设备就够成了一个广播域。而这些对讲机就是集线器（HUB），每个对讲机都像是集线器上的端口，大家都知道对讲机在说话时是不能收听的，必须松开对讲键才能收听，这种同一时刻只能收或者发的工作模式就是半双工。而且对讲机同一时刻只能有一个人说话才能听清楚，如果两个或者更多的人一起说就会产生冲突，都没法听清楚，所以这就构成了一个冲突域。</li>
-</ul>
-<ol>
-<li><p>冲突域<br>【定义】设备间共享同一网段称为冲突域，简单来说就是同一时间内只有一台设备发送信息的范围<br>【分层】osi的第一层（数据链路层）<br>【设备】第二层设备能隔离冲突域 ，如Switch。交换机能缩小冲突域的范围，交换机的每个端口就是一个冲突域</p>
-</li>
-<li><p>广播域<br>【定义】网络中能接受任一设备发出的广播帧的所有设备的集合。简单说如果站点发出一个广播信号，所有能接收到这个信号的设备范围称为一个广播域<br>【分层】osi的第二层（物理层）<br>【设备】第三层设备隔离广播域，如Router。路由器的每一个端口就是一个广播域</p>
-</li>
-</ol>
-<p><strong>冲突域和广播域实例：</strong><br>例一：一个Switch（交换机）直连三台pc和一台hub（集线器），hub下有两台pc<br><img src="/images/Article_images/image02.png" alt="例一"><br>只有第三层设备才能隔离广播域，上图并没有router等第三层设备。所有，这里广播域没有隔离，也就是说上图只有一个广播域。Switch能缩小冲突域，一个Switch端口就是一个冲突域，上图三台pc和一台hub直连到switch上，所有有四个冲突域</p>
-<p>例二：一台router下连两台交换机和一台hub，两台交换机下分别有三台pc，而hub下连有四台pc<br><img src="/images/Article_images/image03.png" alt="例二"><br>算出广播域并不难，router三个端口连接两台switch和一台hub，这样就是三个广播域了。这里两台交换机连六台pc，就是六个冲突域了，外加路由器与集线器之间的一个冲突域，，然后再有就是路由器与两个交换机直接也有两个冲突域，这样总的就是九个冲突域了。</p>
-<p>** 最后的几点注意和总结：**<br>    第二层设备只能隔离冲突域，第三层设备才能隔离广播域<br>    路由器不但能隔离广播域，默认也可以隔离冲突域<br>    路由器下直连交换机，则路由器到交换机也是存在冲突域的。</p>
-
-      
-    </div>
-    
-  </div>
-  
-  
-</article>
-
-  
 
 
   <nav id="page-nav">
@@ -649,9 +672,23 @@ __toString()函数是当对象被当做字符串的时候会自动调用该函�
 
   
     
+  <div class="widget-box">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机操作系统/">计算机操作系统</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-box">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/计算机操作系统/" style="font-size: 10px;">计算机操作系统</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-box">
@@ -669,6 +706,10 @@ __toString()函数是当对象被当做字符串的时候会自动调用该函�
       <ul>
         
           <li>
+            <a href="/2019/11/03/操作系统概述/">操作系统概述</a>
+          </li>
+        
+          <li>
             <a href="/2019/11/03/每日一记/">每日打卡</a>
           </li>
         
@@ -682,10 +723,6 @@ __toString()函数是当对象被当做字符串的时候会自动调用该函�
         
           <li>
             <a href="/2019/10/23/WiFi网络结构/">WiFi网络结构</a>
-          </li>
-        
-          <li>
-            <a href="/2019/10/19/Redis小结/">Redis小结</a>
           </li>
         
       </ul>
