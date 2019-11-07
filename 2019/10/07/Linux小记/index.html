@@ -17,7 +17,7 @@
 <meta property="og:site_name" content="闪电&#39;s Blog">
 <meta property="og:description" content="创建一个连root也删不了的文件,,,其实也不是root删不了 root改下这个文件属性 还是可以删除的,,,查看文件隐藏属性        123lsattr 文件名 lsattr -a 将隐藏文件的属性也列出来lsattr -R 连同子目录的数据也列出来 chattr 改变文件属性，，还有一些参数有兴趣可自行百度，这里 -i 可删除不了这个文件 1chattr -i 不得任意更改文件或目录">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-10-30T06:52:16.854Z">
+<meta property="og:updated_time" content="2019-11-07T12:11:06.634Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux小记">
 <meta name="twitter:description" content="创建一个连root也删不了的文件,,,其实也不是root删不了 root改下这个文件属性 还是可以删除的,,,查看文件隐藏属性        123lsattr 文件名 lsattr -a 将隐藏文件的属性也列出来lsattr -R 连同子目录的数据也列出来 chattr 改变文件属性，，还有一些参数有兴趣可自行百度，这里 -i 可删除不了这个文件 1chattr -i 不得任意更改文件或目录">
@@ -123,6 +123,12 @@
 <hr>
 <p><strong>tmux,很不错的一款linux从业者的利器</strong>0</p>
 <p>tmux new -s foo # 新建名称为 foo 的会话<br>tmux ls # 列出所有 tmux 会话<br>tmux a # 恢复至上一次的会话<br>tmux a -t foo # 恢复名称为 foo 的会话，会话默认名称为数字<br>tmux kill-session -t foo # 删除名称为 foo 的会话<br>tmux kill-server # 删除所有的会话<br>ctr+b +c 增加窗口，</p>
+<hr>
+<p>screen 命令<br>主要用于关闭xshell时，程序服务器里的程序仍然运行</p>
+<p>创建会话        screen -S  test, 创建一个名为test会话</p>
+<p>暂时离开，保留screen会话中的任务或程序<br>当需要临时离开(会话中的程序不会关闭，仍在运行)可以用Ctrl+a d(按住ctrl，然后再依次按a，b)</p>
+<p>恢复会话<br>screen -r test 即可恢复到离开前创建的test会话的工作界面。如果忘记了，或者但是没有指定会话名，可以执行:screen -ls 会列出当前存在的会话列表<br>当目前已经暂时退出了会话，状态为Detached;当使用screen -r test 后状态会变为Attached,,,恢复会话时可以使用 screen -r 进程ID</p>
+<p>Ctrl+a c 在当前screen会话中创建窗口<br>Ctrl+a w 窗口列表<br>ctrl+a n 下一个窗口<br>ctrl+a p 上一个窗口<br>ctrl+1 0-9 在第0-9之间切换</p>
 
       
     </div>
