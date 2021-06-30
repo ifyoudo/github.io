@@ -55,6 +55,57 @@
       <div id="middlecontent" title class="global-width sidebar-right">
         <section id="main">
   
+    <article id="post-VLAN-与-Trunk" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/06/VLAN-与-Trunk/">VLAN 与 Trunk</a>
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2019/10/06/VLAN-与-Trunk/" class="article-date">
+  <time datetime="2019-10-06T07:36:52.000Z" itemprop="datePublished">2019-10-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/网络工程/">网络工程</a>
+  </div>
+
+    
+  </div>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <p>二层交换机就是传统意义上的交换，使用mac地址作为转发依据，建立起mac到端口的映射，，，一般的二层交换机是没有三层功能，也就是不能配置静态路由<br>三层交换则是建立起ip到端口的映射，建立在路由的基础上的。可以理解为二层交换与路由的叠加，实际上，三层交换要强于二层交换与路由的叠加</p>
+<p><strong>简介</strong><br>路由器能够将广播包阻隔在一个接口上，但是，路由器LAN接口数量有限，主要功能是再网络间传输数据，而不是对终端设备提供网络接入。访问LAN的功能还是接入层交换机实现，与三层交换机相似,通过在二层交换机上创建VLAN来减少广播域。现代交换机就是通过VLAN来构建的，因此某种程度上来讲，学习交换机就是学习vlan</p>
+<p>** 什么是VLAN **<br>它是一组与位置无关的逻辑端口，相当于一个独立的三层网络</p>
+<p><strong>什么是trunk</strong><br>Trunk是两个网络设备之间承载多于一种vlan的端到端的连接，将vlan延申至整个网络，没有vlan Trunk，vlan也不会非常有用。vlan trunk允许vlan数据流在交换机间传输，所以设备在同一vlan，但连接到不同交换机，能够不通过路由器来进行通信<br><strong>一个VLAN trunk不属于莫伊特定vlan</strong><br>而是交换机和路由器间多个vlan 的通道。<br>当安装好trunk线之后，帧在trunk线传输就可以使用trunk协议来修改以太网帧。这就意味着交换机端口有不止一种模式，缺省情况下，所有端口被称为接入端口。当一个端口用于交换机间互联传输vlan信息时，这种端口模式改变为trunk，节点路由器通常也不知道vlan的存在并使用标准以太网帧或“untagged”帧，trunk线能够使用“tagged”帧来标记vlan或优先级。<br>因此，在trunk端口，运行trunk协议来允许帧中包含trunk信息<br><img src="/images/Article_images/image04.jpg" alt><br>pc1在经过路由表处理后向pc2发送数据流，这两个节点在同一vlan但不同交换机</p>
+<ul>
+<li>以太网帧离开pc1到达switch1</li>
+<li>以太网1的SAT表明目的地时trunk线的另一端</li>
+<li>switch1使用trunk协议在以太网帧中添加vlan id；</li>
+<li>新帧离开switch1的trunk端口被switch2接收</li>
+<li>源帧按照switch2的sat转发到目的地址（端口4）</li>
+</ul>
+<p>vlan tag 如图所示，包含类型域，优先级域，CFI指示mac数据域，vlan id；<br><img src="/images/Article_images/image05.jpg" alt></p>
+
+      
+    </div>
+    
+  </div>
+  
+  
+</article>
+
+  
     <article id="post-git-ssh连不上github问题" class="article global-container article-type-post" itemscope itemprop="blogPost">
   
     <header class="article-header">
@@ -273,6 +324,10 @@
       <ul>
         
           <li>
+            <a href="/2021/06/30/Weiphp5-0任意文件上传/">Weiphp5.0任意文件上传</a>
+          </li>
+        
+          <li>
             <a href="/2021/06/28/9-2后台登录绕过/">youdiancms9.2后台登录绕过&#39;</a>
           </li>
         
@@ -286,10 +341,6 @@
         
           <li>
             <a href="/2019/10/30/关于php反序列化漏洞小记/">关于php反序列化漏洞小记</a>
-          </li>
-        
-          <li>
-            <a href="/2019/10/24/CVE-2019-11043-复现/">CVE-2019-11043 复现</a>
           </li>
         
       </ul>
