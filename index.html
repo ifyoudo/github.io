@@ -55,6 +55,87 @@
       <div id="middlecontent" title class="global-width sidebar-right">
         <section id="main">
   
+    <article id="post-小米手机root" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/07/01/小米手机root/">小米手机root</a>
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2021/07/01/小米手机root/" class="article-date">
+  <time datetime="2021-07-01T08:36:20.000Z" itemprop="datePublished">2021-07-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/杂记/">杂记</a>
+  </div>
+
+    
+  </div>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <h1 id="小米手机ROOT"><a href="#小米手机ROOT" class="headerlink" title="小米手机ROOT"></a>小米手机ROOT</h1><p>有一部小米8的旧手机，想给他root，用来日常抓包或者装个kali玩玩。不得不说小米root起来真的比其他手机简单多了，还提供了官方解锁通道。这里记录一下root过程中遇到的问题及解决方法。</p>
+<p>手机：小米8</p>
+<p>当前版本：miui12.x</p>
+<h3 id="首先解锁Bootloader"><a href="#首先解锁Bootloader" class="headerlink" title="首先解锁Bootloader"></a>首先解锁Bootloader</h3><p>解锁申请连接，下载解锁工具，根据提示一键解锁</p>
+<p><a href="http://www.miui.com/unlock/index.html" target="_blank" rel="noopener">http://www.miui.com/unlock/index.html</a></p>
+<p><img src="/images/Article_images/Clip_20210701_155748.png" alt="Clip_20210701_155748"></p>
+<p>查看 是否解锁</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.开启 开发者模式</span><br><span class="line">我的设备-&gt;全部参数-&gt;一直点击miui版本</span><br><span class="line">2.查看</span><br><span class="line">更多设置-&gt;开发者选项-&gt;设备解锁状态</span><br></pre></td></tr></table></figure></div>
+
+<p><img src="/images/Article_images/Clip_20210701_160234.png" alt="Clip_20210701_160234"></p>
+<h3 id="刷开发版系统"><a href="#刷开发版系统" class="headerlink" title="刷开发版系统"></a>刷开发版系统</h3><p>稳定版系统,应用设置里没看到开启root的，应该不支持，所以这里要刷开发版系统</p>
+<p>开发版系统下载<a href="https://www.miui.com/download.html" target="_blank" rel="noopener">https://www.miui.com/download.html</a></p>
+<p>我是小米八，在这里下载<a href="http://www.miui.com/download-345.html" target="_blank" rel="noopener">http://www.miui.com/download-345.html</a></p>
+<p><img src="/images/Article_images/Clip_20210701_160603.png" alt="Clip_20210701_160603"></p>
+<p>下载开发版系统，将系统包移到内部存储下。</p>
+<p>我的设备-&gt;miui版本-&gt;手动选择安装包(右上角三点，没有手动也没事，一直点击miui的logo，然后会有提示，这时候就会出现手动安装) </p>
+<p>这里遇到一个坑，就是我当前miui版本太高了，以至于卡刷的时候提示</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">该rom安全补丁低于当前版本</span><br></pre></td></tr></table></figure></div>
+
+<p>所以下一步就是去降低当前miui的版本，我是直接降到了十点几。但是这时候问题来了，miui官网不支持下载miui历史版本的线刷包，问了客服，客服说现在不支持下载历史版本。最后在网上找到了一个下载历史版本下载的网站<a href="https://miuiver.com/，不过这里要想下载系统需要积分，一积分一块钱，签到一天一个积分。感觉还可以，遂花了两块钱，下了个线刷包的系统" target="_blank" rel="noopener">https://miuiver.com/，不过这里要想下载系统需要积分，一积分一块钱，签到一天一个积分。感觉还可以，遂花了两块钱，下了个线刷包的系统</a> <a href="https://bigota.d.miui.com/V10.3.5.0.PEACNXM/dipper_images_V10.3.5.0.PEACNXM_20190802.0000.00_9.0_cn_76d8c9a318.tgz" target="_blank" rel="noopener">https://bigota.d.miui.com/V10.3.5.0.PEACNXM/dipper_images_V10.3.5.0.PEACNXM_20190802.0000.00_9.0_cn_76d8c9a318.tgz</a></p>
+<p><img src="/images/Article_images/Clip_20210701_161658.png" alt="Clip_20210701_161658"></p>
+<p>还有一个网站，是专门用来存各种网站缓存的<a href="http://web.archive.org/" target="_blank" rel="noopener">http://web.archive.org/</a>   这里可以找到历史包，这是后来才发现的，平时信息收集的时候感觉可以利用一波，先记下来。</p>
+<p>线刷工具<a href="http://bigota.d.miui.com/tools/MiFlash2018-5-28-0.zip" target="_blank" rel="noopener">http://bigota.d.miui.com/tools/MiFlash2018-5-28-0.zip</a></p>
+<ol>
+<li><p>解压刚刚下载的系统</p>
+<p><img src="/images/Article_images/Clip_20210701_162332.png" alt="Clip_20210701_162332"></p>
+</li>
+<li><p>手机进入fastboot模式（音量下 + 电源键）</p>
+</li>
+<li><p>usb连接电脑</p>
+</li>
+<li><p>加载设备，并选择系统包</p>
+<p><img src="/images/Article_images/Clip_20210701_162516.png" alt="Clip_20210701_162516"></p>
+</li>
+</ol>
+<p>降低miui版本之后，再去解锁bootloader，解锁成功之后，再去将开发版的包移到手机上的内部存储</p>
+<p><a href="http://www.miui.com/download-345.html" target="_blank" rel="noopener">http://www.miui.com/download-345.html</a></p>
+<p>最后手动选择安装包。安装完成开发版系统之后，即可设置root</p>
+<p>应用设置-&gt;授权管理</p>
+<p><img src="/images/Article_images/Clip_20210701_163123.png" alt="Clip_20210701_163123"></p>
+<p><img src="/images/Article_images/Clip_20210701_163239.png" alt="Clip_20210701_163239"></p>
+<p>可以为所欲为了，嘿嘿嘿~</p>
+
+      
+    </div>
+    
+  </div>
+  
+  
+</article>
+
+  
     <article id="post-Weiphp5-0任意文件上传" class="article global-container article-type-post" itemscope itemprop="blogPost">
   
     <header class="article-header">
@@ -595,97 +676,6 @@ __toString()函数是当对象被当做字符串的时候会自动调用该函�
 </article>
 
   
-    <article id="post-Linux小记" class="article global-container article-type-post" itemscope itemprop="blogPost">
-  
-    <header class="article-header">
-      
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/07/Linux小记/">Linux小记</a>
-    </h1>
-  
-
-    </header>
-  
-  <div class="article-meta">
-    <a href="/2019/10/07/Linux小记/" class="article-date">
-  <time datetime="2019-10-07T10:17:21.000Z" itemprop="datePublished">2019-10-07</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/杂记/">杂记</a>
-  </div>
-
-    
-  </div>
-  
-
-  <div class="article-inner">
-    
-    <div class="article-content article-content-cloud" itemprop="articleBody">
-      
-        <p><strong>创建一个连root也删不了的文件</strong><br>,,,其实也不是root删不了 root改下这个文件属性 还是可以删除的,,,<br>查看文件隐藏属性        <div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lsattr 文件名 </span><br><span class="line">lsattr -a 将隐藏文件的属性也列出来</span><br><span class="line">lsattr -R 连同子目录的数据也列出来</span><br></pre></td></tr></table></figure></div></p>
-<p>chattr 改变文件属性，，还有一些参数有兴趣可自行百度，这里 -i 可删除不了这个文件</p>
-<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chattr -i 不得任意更改文件或目录</span><br></pre></td></tr></table></figure></div>
-
-<p><strong>环境变量</strong><br>name=value 格式</p>
-<ul>
-<li>按生命周期分类<br>  永久环境变量：修改相关配置文件，永久生效<br>  临时环境变量：使用 export命令，在当前终端下生效，关闭终端后失效</li>
-<li>按作用域分类<br>  系统环境变量：对该系统中所有用户生效<br>  用户环境变量：对当前或特定用户生效</li>
-</ul>
-<p>设置方法<br>在/etc/profile中添加变量，这种方法对所有用户生效<br>例如：</p>
-<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#set our default path</span><br><span class="line">PATH=&quot;/usr/local/sbin:/usr/local/bin:/usr/bin&quot;</span><br><span class="line">export PATH</span><br></pre></td></tr></table></figure></div>
-
-<p>添加之后，使用<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure></div></p>
-<p>让其生效.<br>在</p>
-<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~/.bash_profile</span><br></pre></td></tr></table></figure></div>
-
-<p>中添加变量，对当前用户永久生效<br>直接运行export 定义变量，这是临时生效<br>echo $PATH,,或者,,env,,,,,查看所有的环境变量</p>
-<p>LD_PRELOAD<br>该环境变量可以定义在程序运行前优先加载的动态链接库。在pwn中，可能需要一个特定的libc，这时候就可以定义它：</p>
-<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LD_PRELOAD=/path/to/libc.so ./binary</span><br></pre></td></tr></table></figure></div>
-
-<p>可以参考，，，<a href="https://blog.csdn.net/king523103/article/details/46929669" target="_blank" rel="noopener">https://blog.csdn.net/king523103/article/details/46929669</a></p>
-<p><strong>procfs</strong><br>是linux内核提供的虚拟文件系统，为访问系统内核数据的操作提供接口。之所以说是虚拟文件系统，是因为它只占内存，而不占存储空间 。用户可以通过procfs查看有关系统硬件机正在运行进程的信息，甚至可以修改某些内容去改变内核的运行状态<br><strong>/proc/cmdline</strong><br>在启动时传递给内核的相关参数信息，通常由lilo或者grub等启动管理工具提供：<br><strong>/proc/cpuinfo</strong><br>记录cpu相关信息<br><strong>/proc/crypto</strong><br>已安装的内核所使用的密码算法和算法的详细信息<br><strong>/proc/devices</strong><br>已加载的所有块设备和字符设备的信息，包含主设备号和设备组名<br><strong>/proc/interrupts</strong><br>x86/x86_64系统上每个IRQ相关的中断号列表，多路处理器平台上每个cpu对于每个i/o设备均有自己的中断号<br><strong>/proc/kcore</strong><br>系统使用的物理内存，以ELF核心文件格式存储<br><strong>/proc/meminfo</strong><br>系统中关于当前内存的使用情况等的信息<br><strong>/proc/mounts</strong><br>每个进程自身挂在名称空间中的所有挂载点列表文件的符号链接<br><strong>/proc/modules</strong><br>当前装入内核的所有模块名称列表，可以由    lsmod    命令使用。其中第一列表示模块 名，第二列表示此模块占用内存空间大小，第三列表示此模块有多少实例被装入， 第四列表示此模块依赖于其它哪些模块，第五列表示此模块的装载状态：Live（已 经装入）、Loading（正在装入）和    Unloading（正在卸载），第六列表示此模块在 内核内存（kernel    memory）中的偏移量</p>
-<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$cat /proc/modules</span><br><span class="line">fuse	118784	3	-	Live	0xffffffffc0d9b000</span><br><span class="line">ccm	   20480 3	-	Live	0xffffffffc0d95000</span><br><span class="line">rfcomm	86016	4	-	Live	0xffffffffc0d7f000</span><br><span class="line">bnep	24576	2	-	Live	0xffffffffc0d78000</span><br></pre></td></tr></table></figure></div>
-
-<p><strong>/proc/slabinfo</strong><br>保存着监视系统中所有活动的slab缓存信息<br><strong>/proc/[pid]/cmdline</strong><br>启动当前进程的完整命令<br><strong>/proc/[pid]/exe</strong><br>指向启动当前进程的可执行文件的符号链接<br>        <strong>/proc/[pid]maps</strong><br>        最常用到的，用于显示进程的内存区域映射信息<br><strong>/proc/[pid]/environ</strong><br>包含了进程的环境变量</p>
-<p>============================================================================================================================================================<br><strong>这里记载着某些时候需要用到的命令</strong><br>df -hl 查看磁盘剩余空间</p>
-<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">└──╼ #df -hl</span><br><span class="line">Filesystem      Size  Used Avail Use% Mounted on</span><br><span class="line">udev            950M     0  950M   0% /dev</span><br><span class="line">tmpfs           197M   16M  181M   9% /run</span><br><span class="line">/dev/sda5        80G  6.4G   72G   9% /</span><br><span class="line">tmpfs           984M     0  984M   0% /dev/shm</span><br><span class="line">tmpfs           5.0M  4.0K  5.0M   1% /run/lock</span><br><span class="line">tmpfs           984M     0  984M   0% /sys/fs/cgroup</span><br><span class="line">/dev/sda1       346M   81M  243M  25% /boot</span><br><span class="line">tmpfs           197M   20K  197M   1% /run/user/0</span><br></pre></td></tr></table></figure></div>
-
-<p>这里/dev/sda1 表示,,,sd硬盘接口的第一个硬盘(a),第一个分区(1)，</p>
-<p>du -sh[目录名]返回该目录大小<br>df -h 查看每个根路径分区大小<br>df -sh * 查看每个文件夹大小</p>
-<hr>
-<p><strong>tmux,很不错的一款linux从业者的利器</strong>0</p>
-<p>tmux new -s foo # 新建名称为 foo 的会话<br>tmux ls # 列出所有 tmux 会话<br>tmux a # 恢复至上一次的会话<br>tmux a -t foo # 恢复名称为 foo 的会话，会话默认名称为数字<br>tmux kill-session -t foo # 删除名称为 foo 的会话<br>tmux kill-server # 删除所有的会话<br>ctr+b +c 增加窗口，</p>
-<hr>
-<p>screen 命令<br>主要用于关闭xshell时，程序服务器里的程序仍然运行</p>
-<p>创建会话        screen -S  test, 创建一个名为test会话</p>
-<p>暂时离开，保留screen会话中的任务或程序<br>当需要临时离开(会话中的程序不会关闭，仍在运行)可以用Ctrl+a d(按住ctrl，然后再依次按a，b)</p>
-<p>恢复会话<br>screen -r test 即可恢复到离开前创建的test会话的工作界面。如果忘记了，或者但是没有指定会话名，可以执行:screen -ls 会列出当前存在的会话列表<br>当目前已经暂时退出了会话，状态为Detached;当使用screen -r test 后状态会变为Attached,,,恢复会话时可以使用 screen -r 进程ID</p>
-<p>Ctrl+a c 在当前screen会话中创建窗口<br>Ctrl+a w 窗口列表<br>ctrl+a n 下一个窗口<br>ctrl+a p 上一个窗口<br>ctrl+1 0-9 在第0-9之间切换</p>
-<p>===============================================================</p>
-<p>centos开启80端口<br>firewall-cmd –zone=public –add-port=80/tcp –permanent</p>
-<p>查询端口是否开启<br>firewall-cmd –query-port=80/tcp</p>
-<p>重启防火墙<br>firewall-cmd –reload</p>
-<p>查询有哪些端口开启<br>firewall-cmd –list-port</p>
-<p>–zone #作用域<br>–add-port=80 #添加端口 ,格式为：端口/协议<br>–permanent #永久有效，无此参数重启后会失效</p>
-<p>关闭firewall<br>systemctl stop firewalld # 停止firewall<br>systemctl disable firewalld #禁止firewall开机启动</p>
-<p>关于firewall-cmd D:/desktop/我都笔记/firewall-cmd</p>
-<p>=========================================================<br>kali中开启ssh<br>修改/etc/ssh/sshd_config<br>找到#PasswordAuthentication yes 把#去掉<br>将PermitRootLogin without-password修改为 PermitRootLogin yes<br>启动ssh   /etc/init.d/ssh start<br>开机自启 update-rc.d ssh enable</p>
-<p>=========================================================================<br>linux 开启定时任务<br>crontab命令<br>-u 只有root才能进行这个任务，<br>-e 编辑crontab工作内容<br>-l 查询crontab工作内容<br>-r 删除所有crontab工作内容，<br>分 时 日 月 周 </p>
-<p>======================================================================<br>#关于awk<br>是一个处理文本文件的语言，是一个强大的文本分析工具<br>基本用法<br>打印a.txt 中第一列和第二列中的内容<br>awk ‘print $1,$2’ a.txt</p>
-<p>awk -F “:” ‘print $1,$2’ a.txt<br>打印a.txt中以：为分隔的第一列和第二列</p>
-<p>使用正则，字符串匹配<br>~表示模式开始，//中式模式<br>awk ‘$2 ~ /th/ {print $2,$4}’ a.txt</p>
-
-      
-    </div>
-    
-  </div>
-  
-  
-</article>
-
-  
 
 
   <nav id="page-nav">
@@ -732,7 +722,7 @@ __toString()函数是当对象被当做字符串的时候会自动调用该函�
   <div class="widget-box">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li></ul>
     </div>
   </div>
 
@@ -742,6 +732,10 @@ __toString()函数是当对象被当做字符串的时候会自动调用该函�
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/07/01/小米手机root/">小米手机root</a>
+          </li>
         
           <li>
             <a href="/2021/06/30/Weiphp5-0任意文件上传/">Weiphp5.0任意文件上传</a>
@@ -757,10 +751,6 @@ __toString()函数是当对象被当做字符串的时候会自动调用该函�
         
           <li>
             <a href="/2019/11/03/操作系统概述/">操作系统概述</a>
-          </li>
-        
-          <li>
-            <a href="/2019/10/30/关于php反序列化漏洞小记/">关于php反序列化漏洞小记</a>
           </li>
         
       </ul>
